@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Driven Community Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="images/dd-logo.png" alt="Difference Driven Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h1>Difference Driven</h1>
+                        <p>Community Center</p>
+                    </div>
+                </div>
+
+                <nav class="nav-desktop">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">OUR COMMUNITY <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="about.html">About Us</a>
+                            <a href="programs.html">Programs & Services</a>
+                            <a href="housing.html">Housing Cooperatives</a>
+                            <a href="events.html">Upcoming Events</a>
+                            <a href="stories.html">Community Stories</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">MEMBERSHIP <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="membership.html">Join Our Community</a>
+                            <a href="get-involved.html">Get Involved</a>
+                            <a href="register.html">Program Registration</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">MY DD ACCOUNT <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="login.html">Login</a>
+                            <a href="register.html">Create Account</a>
+                            <a href="dashboard.html">My Dashboard</a>
+                            <a href="forgot-password.html">Reset Password</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <a href="contact.html" class="btn btn-primary">DONATE TODAY</a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="about.html">About Us</a>
+                <a href="programs.html">Programs & Services</a>
+                <a href="membership.html">Membership</a>
+                <a href="login.html">Login</a>
+                <a href="contact.html" class="btn btn-primary">DONATE TODAY</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <div class="hero-slide active">
+                <img src="images/hero-community.png" alt="Community Programs">
+                <div class="hero-content">
+                    <h2>Empowering Our Community</h2>
+                    <p>Building stronger neighborhoods through education, support, and collaboration</p>
+                    <a href="programs.html" class="btn btn-secondary">Explore Programs</a>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <img src="images/hero-programs.png" alt="Educational Programs">
+                <div class="hero-content">
+                    <h2>Transformative Education</h2>
+                    <p>Career development, life skills, and health education programs</p>
+                    <a href="programs.html" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <img src="images/hero-housing.png" alt="Housing Cooperatives">
+                <div class="hero-content">
+                    <h2>Community-Owned Housing</h2>
+                    <p>Affordable homeownership through cooperative housing initiatives</p>
+                    <a href="housing.html" class="btn btn-secondary">Discover Housing</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-message">
+            <p class="hero-tagline">Where Community Ownership Meets Personal Empowerment</p>
+            <p class="hero-description">We're more than a community center—we're a movement. Through cooperative housing, transformative education, and comprehensive wellness programs, we're proving that when communities control their own resources, everyone thrives.</p>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links">
+        <div class="container">
+            <div class="quick-links-grid">
+                <a href="programs.html" class="quick-link-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Program Schedule</h3>
+                    <p>View our weekly program schedule and register for classes</p>
+                </a>
+                <a href="about.html" class="quick-link-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Hours & Schedules</h3>
+                    <p>Find our operating hours and facility availability</p>
+                </a>
+                <a href="membership.html" class="quick-link-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Membership</h3>
+                    <p>Join our community and access all programs and services</p>
+                </a>
+                <a href="register.html" class="quick-link-card">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Program Registration</h3>
+                    <p>Sign up for upcoming programs and workshops</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Housing Cooperative Highlight -->
+    <section class="housing-highlight">
+        <div class="container">
+            <div class="housing-content">
+                <div class="housing-text">
+                    <h2>Community-Owned Housing: Your Path to Affordable Homeownership</h2>
+                    <p>Imagine living in a home you can afford, surrounded by neighbors who share your values, with a voice in decisions that affect your daily life. Our housing cooperatives make homeownership accessible while building lasting community connections.</p>
+                    <div class="housing-buttons">
+                        <a href="housing.html" class="btn btn-light">Learn More</a>
+                        <a href="housing.html#apply" class="btn btn-outline">Apply Now</a>
+                    </div>
+                </div>
+                <div class="housing-image">
+                    <img src="images/community-family.png" alt="Community Housing">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Programs -->
+    <section class="featured-programs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Programs</h2>
+                <p>Discover our most popular programs and activities</p>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card">
+                    <img src="images/community-workshop.png" alt="Career Development">
+                    <div class="program-info">
+                        <h3>Career Development</h3>
+                        <p>Skills, resources, and mentorship for career advancement</p>
+                    </div>
+                    <div class="program-overlay">
+                        <p>Our Career Development program provides participants with the skills, resources, and mentorship they need to advance their careers and achieve their professional goals.</p>
+                        <a href="programs.html#career" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <img src="images/community-family.png" alt="Health Education">
+                    <div class="program-info">
+                        <h3>Health Education</h3>
+                        <p>Promoting wellness through education and resources</p>
+                    </div>
+                    <div class="program-overlay">
+                        <p>Our Health Education program promotes wellness through education and resources for healthy living, addressing both physical and mental health needs in our community.</p>
+                        <a href="programs.html#health" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <img src="images/community-youth.png" alt="Community Events">
+                    <div class="program-info">
+                        <h3>Community Events</h3>
+                        <p>Bringing people together to celebrate and connect</p>
+                    </div>
+                    <div class="program-overlay">
+                        <p>Our Community Events bring people together to foster connections, celebrate diversity, and strengthen the bonds that make our community resilient and vibrant.</p>
+                        <a href="events.html" class="btn btn-primary">View Events</a>
+                    </div>
+                </div>
+            </div>
+            <div class="section-footer">
+                <a href="programs.html" class="btn btn-accent">View All Programs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="upcoming-events">
+        <div class="container">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>Join us for these exciting community events</p>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <img src="images/event-career-fair.png" alt="Career Fair">
+                    <div class="event-info">
+                        <p class="event-date">June 15, 2025 • 10:00 AM - 2:00 PM</p>
+                        <h3>Career Fair</h3>
+                        <p>Connect with local employers and explore job opportunities in various industries.</p>
+                        <a href="events/career-fair.html" class="btn btn-accent">Register Now</a>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <img src="images/event-financial.png" alt="Financial Literacy Workshop">
+                    <div class="event-info">
+                        <p class="event-date">June 22, 2025 • 6:00 PM - 8:00 PM</p>
+                        <h3>Financial Literacy Workshop</h3>
+                        <p>Learn essential money management skills and strategies for building financial security.</p>
+                        <a href="events/financial-literacy.html" class="btn btn-accent">Register Now</a>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <img src="images/event-health-fair.png" alt="Community Health Fair">
+                    <div class="event-info">
+                        <p class="event-date">July 8, 2025 • 11:00 AM - 3:00 PM</p>
+                        <h3>Community Health Fair</h3>
+                        <p>Access free health screenings, resources, and information from local health providers.</p>
+                        <a href="events/health-fair.html" class="btn btn-accent">Register Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="section-footer">
+                <a href="events.html" class="btn btn-secondary">View All Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Impact</h2>
+                <p>Making a difference in our community, one person at a time</p>
+            </div>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-number">500+</div>
+                    <h3>Families Building Brighter Futures</h3>
+                    <p>Through our comprehensive programs and services</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">25+</div>
+                    <h3>Programs Designed by Community, for Community</h3>
+                    <p>Responsive to real community needs</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">150+</div>
+                    <h3>Neighbors Supporting Each Other</h3>
+                    <p>Volunteers making a difference daily</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">85%</div>
+                    <h3>Career Program Graduates Employed Within 6 Months</h3>
+                    <p>Proven pathways to economic opportunity</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="testimonial-content">
+                <div class="testimonial-image">
+                    <img src="images/community-leader.png" alt="Community Member">
+                </div>
+                <div class="testimonial-text">
+                    <h2>What Our Community Says</h2>
+                    <blockquote>
+                        "The Difference Driven Community Center changed my life. Through their career development program, I gained the skills and confidence to pursue my dream job. The supportive community here truly empowers everyone to reach their full potential."
+                    </blockquote>
+                    <cite>
+                        <strong>Jasmine Williams</strong>
+                        <span>Community Member</span>
+                    </cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Join Our Community Today</h2>
+                <p>Become a member of the Difference Driven Community Center and gain access to all our programs and facilities. Together, we can make a difference.</p>
+                <div class="cta-buttons">
+                    <a href="membership.html" class="btn btn-dark">Become a Member</a>
+                    <a href="programs.html" class="btn btn-light">Explore Programs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Difference Driven Community Center</h3>
+                    <p>1234 Community Drive<br>Charlotte, NC 28205</p>
+                    <p>Phone: (704) 555-3322<br>Email: info@differencedriven.org</p>
+                    <p>501(c)(3) nonprofit organization</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="events.html">Events Calendar</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Stay Connected</h3>
+                    <p>Subscribe to our newsletter</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Difference Driven Community Center. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Social Sidebar -->
+    <div class="social-sidebar">
+        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

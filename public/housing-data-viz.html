@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Housing Cooperatives Visualizations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #BDBD0D 0%, #0581a7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #142329, #0581a7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: shimmer 20s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: linear-gradient(135deg, #BDBD0D, #0581a7, #FFC300);
+            border-radius: 15px;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            z-index: -1;
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #142329;
+            text-align: center;
+            position: relative;
+        }
+        
+        .chart-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #BDBD0D, #0581a7);
+            border-radius: 2px;
+        }
+        
+        .canvas-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #BDBD0D;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .insight-box h4 {
+            color: #142329;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .insight-box p {
+            color: #495057;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .conceptual-graphics {
+            margin-top: 50px;
+        }
+        
+        .infographic {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .infographic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #BDBD0D, #0581a7, #FFC300, #142329);
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #BDBD0D;
+            font-weight: bold;
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #BDBD0D, #0581a7);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(189, 189, 13, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #142329;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #BDBD0D, #0581a7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(0deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: perspective(1000px) rotateY(5deg) translateY(-10px);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: shimmer 15s linear infinite;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            color: #142329;
+            text-align: center;
+            margin: 50px 0 30px;
+            position: relative;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #BDBD0D, #0581a7);
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .visualization-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step::after {
+                content: '↓';
+                right: auto;
+                bottom: -20px;
+                top: auto;
+                transform: none;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Community-Owned Housing Cooperatives</h1>
+            <p>Data Visualizations: Closing the Racial Wealth Gap Through Proven Models</p>
+        </div>
+
+        <div class="visualization-grid">
+            <!-- Homeownership Rates by Race Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">Homeownership Rates by Race & Ethnicity (2024)</h3>
+                <div class="canvas-container">
+                    <canvas id="homeownershipChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>The 29-30 percentage point gap between White and Black homeownership represents the primary driver of racial wealth disparities, with this gap remaining virtually unchanged since 1992.</p>
+                </div>
+            </div>
+
+            <!-- Wealth Gap Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">Median Household Wealth by Race</h3>
+                <div class="canvas-container">
+                    <canvas id="wealthGapChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>Black households possess only 15% of White household wealth. At current rates, it would take over 500 years to close this gap without intervention through alternative ownership models.</p>
+                </div>
+            </div>
+
+            <!-- Homeowner vs Renter Wealth -->
+            <div class="chart-container">
+                <h3 class="chart-title">Homeowner vs Renter Median Net Worth</h3>
+                <div class="canvas-container">
+                    <canvas id="ownerRenterChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>Homeowners possess 40 times more wealth than renters ($255,000 vs $6,300), demonstrating why homeownership access is critical for wealth building.</p>
+                </div>
+            </div>
+
+            <!-- CLT Performance Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">Community Land Trust Performance Metrics</h3>
+                <div class="canvas-container">
+                    <canvas id="cltPerformanceChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>CLTs demonstrate superior stability with foreclosure rates 8.2x lower than conventional mortgages, while 67% of participants successfully transition to market-rate homeownership.</p>
+                </div>
+            </div>
+
+            <!-- International Models Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">International Cooperative Housing Models</h3>
+                <div class="canvas-container">
+                    <canvas id="internationalChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>Countries with strong cooperative housing frameworks achieve higher homeownership rates and lower housing inequality, providing proven models for U.S. implementation.</p>
+                </div>
+            </div>
+
+            <!-- Funding Sources Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">Funding Sources for Community Housing ($ Billions)</h3>
+                <div class="canvas-container">
+                    <canvas id="fundingChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h4>Key Insight</h4>
+                    <p>Multiple funding streams totaling over $15 billion annually support community housing development, with federal programs providing the largest share.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="conceptual-graphics">
+            <h2 class="section-title">Implementation Process & Impact Model</h2>
+            
+            <div class="infographic">
+                <h3 style="text-align: center; margin-bottom: 30px; color: #142329; font-size: 1.8rem;">Community Housing Cooperative Development Process</h3>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-icon">1</div>
+                        <div class="step-title">Community Assessment</div>
+                        <div class="step-description">Asset mapping, cultural preservation planning, and resident organizing</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon">2</div>
+                        <div class="step-title">Governance Structure</div>
+                        <div class="step-description">Cooperative bylaws, resident control mechanisms, stewardship services</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon">3</div>
+                        <div class="step-title">Financing Assembly</div>
+                        <div class="step-description">Blend federal, state, foundation, and CDFI funding sources</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon">4</div>
+                        <div class="step-title">Development & Operations</div>
+                        <div class="step-description">Construction/acquisition, creative economy integration, wealth building</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">40x</div>
+                    <div class="stat-label">Homeowner wealth advantage over renters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">67%</div>
+                    <div class="stat-label">CLT participants who transition to market-rate homes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$49K</div>
+                    <div class="stat-label">Average wealth accumulation in Champlain Housing Trust</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8.2x</div>
+                    <div class="stat-label">Lower foreclosure rates than conventional mortgages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Affordability maintenance rate in shared equity programs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">275</div>
+                    <div class="stat-label">Communities secured by ROC USA Network</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js default configuration
+        Chart.defaults.font.family = 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+        Chart.defaults.plugins.legend.display = true;
+        
+        // Brand colors for Difference Driven
+        const colors = {
+            primary: '#BDBD0D',      // Green
+            secondary: '#0581a7',    // Blue
+            accent: '#FFC300',       // Yellow
+            warning: '#f5576c',      // Red/Pink
+            success: '#4ecdc4',      // Teal
+            white: '#ffffff',
+            black: '#142329',        // Dark Gray
+            grey: '#95a5a6'          // Neutral
+        };
+
+        // Homeownership Rates Chart
+        const homeownershipCtx = document.getElementById('homeownershipChart').getContext('2d');
+        new Chart(homeownershipCtx, {
+            type: 'bar',
+            data: {
+                labels: ['White', 'Asian', 'Hispanic/Latino', 'Black', 'Native American'],
+                datasets: [{
+                    label: 'Homeownership Rate (%)',
+                    data: [73.5, 62.0, 49.5, 44.0, 56.0],
+                    backgroundColor: [
+                        colors.primary,
+                        colors.secondary,
+                        colors.accent,
+                        colors.warning,
+                        colors.success
+                    ],
+                    borderColor: colors.white,
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 80,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutBounce'
+                }
+            }
+        });
+
+        // Wealth Gap Chart
+        const wealthGapCtx = document.getElementById('wealthGapChart').getContext('2d');
+        new Chart(wealthGapCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['White Households', 'Black Households', 'Hispanic Households', 'Asian Households'],
+                datasets: [{
+                    data: [171000, 20700, 22700, 120400],
+                    backgroundColor: [
+                        colors.primary,
+                        colors.warning,
+                        colors.accent,
+                        colors.secondary
+                    ],
+                    borderColor: colors.white,
+                    borderWidth: 3,
+                    cutout: '50%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': $' + context.parsed.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    duration: 2000
+                }
+            }
+        });
+
+        // Homeowner vs Renter Chart
+        const ownerRenterCtx = document.getElementById('ownerRenterChart').getContext('2d');
+        new Chart(ownerRenterCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Homeowners', 'Renters'],
+                datasets: [{
+                    label: 'Median Net Worth ($)',
+                    data: [255000, 6300],
+                    backgroundColor: [colors.success, colors.warning],
+                    borderColor: colors.white,
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // CLT Performance Chart
+        const cltPerformanceCtx = document.getElementById('cltPerformanceChart').getContext('2d');
+        new Chart(cltPerformanceCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Affordability Maintenance', 'Foreclosure Prevention', 'Wealth Building', 'Transition Success', 'Community Control'],
+                datasets: [{
+                    label: 'CLT Performance (%)',
+                    data: [95, 92, 78, 67, 85],
+                    backgroundColor: 'rgba(189, 189, 13, 0.2)',
+                    borderColor: colors.primary,
+                    pointBackgroundColor: colors.primary,
+                    pointBorderColor: colors.white,
+                    pointBorderWidth: 2,
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 12
+                            }
+                        },
+                        ticks: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000
+                }
+            }
+        });
+
+        // International Models Chart
+        const internationalCtx = document.getElementById('internationalChart').getContext('2d');
+        new Chart(internationalCtx, {
+            type: 'line',
+            data: {
+                labels: ['Germany', 'Austria', 'Canada', 'UK', 'Netherlands', 'United States'],
+                datasets: [{
+                    label: 'Cooperative Housing Share (%)',
+                    data: [12, 20, 8, 3, 15, 1],
+                    backgroundColor: colors.primary,
+                    borderColor: colors.primary,
+                    pointBackgroundColor: colors.white,
+                    pointBorderColor: colors.primary,
+                    pointBorderWidth: 3,
+                    pointRadius: 8,
+                    borderWidth: 4,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 25,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // Funding Sources Chart
+        const fundingCtx = document.getElementById('fundingChart').getContext('2d');
+        new Chart(fundingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['LIHTC', 'CDFI Fund', 'HOME Program', 'USDA Rural', 'State HTFs', 'Foundations'],
+                datasets: [{
+                    label: 'Annual Funding ($ Billions)',
+                    data: [9.0, 2.5, 1.4, 1.2, 2.8, 0.8],
+                    backgroundColor: [
+                        colors.primary,
+                        colors.secondary,
+                        colors.accent,
+                        colors.success,
+                        colors.warning,
+                        colors.grey
+                    ],
+                    borderColor: colors.white,
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value + 'B';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 45
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutBounce'
+                }
+            }
+        });
+    </script>
+</body>
+</html>
