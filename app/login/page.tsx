@@ -1,5 +1,9 @@
 "use client"
 
+import type React from "react"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -8,10 +12,35 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Users, Heart, Home } from "lucide-react"
-import { useState } from "react"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
+
+    // Test credentials
+    if (email === "admin@work.capturefantasy.com" && password === "admin") {
+      // Store login state in localStorage
+      localStorage.setItem("isLoggedIn", "true")
+      localStorage.setItem("userEmail", email)
+      localStorage.setItem("userName", "Admin User")
+
+      // Redirect to dashboard
+      router.push("/dashboard")
+    } else {
+      setError("Invalid email or password. Try admin@work.capturefantasy.com / admin")
+    }
+
+    setIsLoading(false)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -39,7 +68,19 @@ export default function LoginPage() {
             <CardTitle className="text-center text-xl text-dark-gray">Member Login</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">{error}</div>
+              )}
+
+              <div className="bg-blue-50 border border-blue-200 text-blue-600 px-4 py-3 rounded-md text-sm">
+                <strong>Test Login:</strong>
+                <br />
+                Email: admin@work.capturefantasy.com
+                <br />
+                Password: admin
+              </div>
+
               <div>
                 <Label htmlFor="email" className="text-dark-gray">
                   Email address
@@ -52,6 +93,8 @@ export default function LoginPage() {
                   required
                   className="mt-1"
                   placeholder="your.email@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -67,6 +110,8 @@ export default function LoginPage() {
                     autoComplete="current-password"
                     required
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <button
                     type="button"
@@ -98,8 +143,12 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-dark-gray">
-                  Sign in to your community
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/90 text-dark-gray"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign in to your community"}
                 </Button>
               </div>
             </form>

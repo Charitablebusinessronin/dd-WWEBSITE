@@ -1,14 +1,35 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown, User, LogOut } from "lucide-react"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userName, setUserName] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check login status on component mount
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true"
+    const name = localStorage.getItem("userName") || ""
+    setIsLoggedIn(loggedIn)
+    setUserName(name)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn")
+    localStorage.removeItem("userEmail")
+    localStorage.removeItem("userName")
+    setIsLoggedIn(false)
+    setUserName("")
+    router.push("/")
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -123,50 +144,86 @@ export default function Header() {
               </div>
             </div>
 
-            {/* My DD Account Dropdown */}
-            <div className="relative group">
-              <button
-                className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
-                onMouseEnter={() => setActiveDropdown("account")}
-              >
-                <span>MY DD ACCOUNT</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div
-                className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
-                  activeDropdown === "account" ? "opacity-100 visible" : "opacity-0 invisible"
-                }`}
-                onMouseEnter={() => setActiveDropdown("account")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="py-2">
-                  <Link
-                    href="/login"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Create Account
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    My Dashboard
-                  </Link>
-                  <Link
-                    href="/forgot-password"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Reset Password
-                  </Link>
+            {/* Conditional Account/User Dropdown */}
+            {isLoggedIn ? (
+              <div className="relative group">
+                <button
+                  className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
+                  onMouseEnter={() => setActiveDropdown("user")}
+                >
+                  <User className="w-4 h-4" />
+                  <span>{userName}</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <div
+                  className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
+                    activeDropdown === "user" ? "opacity-100 visible" : "opacity-0 invisible"
+                  }`}
+                  onMouseEnter={() => setActiveDropdown("user")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="py-2">
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      My Dashboard
+                    </Link>
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="relative group">
+                <button
+                  className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
+                  onMouseEnter={() => setActiveDropdown("account")}
+                >
+                  <span>MY DD ACCOUNT</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <div
+                  className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
+                    activeDropdown === "account" ? "opacity-100 visible" : "opacity-0 invisible"
+                  }`}
+                  onMouseEnter={() => setActiveDropdown("account")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="py-2">
+                    <Link
+                      href="/login"
+                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      Create Account
+                    </Link>
+                    <Link
+                      href="/forgot-password"
+                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      Reset Password
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </nav>
 
           {/* CTA Button */}
@@ -206,19 +263,47 @@ export default function Header() {
               Programs & Services
             </Link>
             <Link
+              href="/programs/register"
+              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Program Registration
+            </Link>
+            <Link
               href="/membership"
               className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Membership
             </Link>
-            <Link
-              href="/login"
-              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout()
+                    setIsMenuOpen(false)
+                  }}
+                  className="block w-full text-left px-4 py-2 text-gray-700 hover:text-red-600 transition-colors"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </Link>
+            )}
             <Link href="/contact" className="block px-4 py-2" onClick={() => setIsMenuOpen(false)}>
               <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded-full">
                 DONATE TODAY

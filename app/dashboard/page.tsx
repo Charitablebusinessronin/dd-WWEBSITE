@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -21,6 +25,37 @@ import {
 } from "lucide-react"
 
 export default function DashboardPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userName, setUserName] = useState("")
+  const [userEmail, setUserEmail] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true"
+    const name = localStorage.getItem("userName") || ""
+    const email = localStorage.getItem("userEmail") || ""
+
+    if (!loggedIn) {
+      router.push("/login")
+      return
+    }
+
+    setIsLoggedIn(loggedIn)
+    setUserName(name)
+    setUserEmail(email)
+  }, [router])
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-dark-gray mb-4">Redirecting to login...</h1>
+          <p className="text-gray-600">Please wait while we redirect you to the login page.</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -30,7 +65,7 @@ export default function DashboardPage() {
             <div className="flex items-center">
               <Image src="/dd-logo.png" alt="Difference Driven" width={40} height={40} className="mr-3" />
               <div>
-                <h1 className="text-xl font-bold text-dark-gray">Welcome back, Maria!</h1>
+                <h1 className="text-xl font-bold text-dark-gray">Welcome back, {userName}!</h1>
                 <p className="text-sm text-gray-600">Full Member since March 2023</p>
               </div>
             </div>
@@ -196,23 +231,18 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3 text-sm">
                     <div className="h-2 w-2 bg-green rounded-full"></div>
-                    <span className="text-gray-600">Completed Career Development Workshop</span>
-                    <span className="text-gray-400">2 days ago</span>
+                    <span className="text-gray-600">Logged in to dashboard</span>
+                    <span className="text-gray-400">Just now</span>
                   </div>
                   <div className="flex items-center space-x-3 text-sm">
                     <div className="h-2 w-2 bg-primary rounded-full"></div>
-                    <span className="text-gray-600">Registered for Career Fair</span>
-                    <span className="text-gray-400">1 week ago</span>
+                    <span className="text-gray-600">Account created successfully</span>
+                    <span className="text-gray-400">Today</span>
                   </div>
                   <div className="flex items-center space-x-3 text-sm">
                     <div className="h-2 w-2 bg-secondary rounded-full"></div>
-                    <span className="text-gray-600">Updated profile information</span>
-                    <span className="text-gray-400">2 weeks ago</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-sm">
-                    <div className="h-2 w-2 bg-accent rounded-full"></div>
-                    <span className="text-gray-600">Attended Community Meeting</span>
-                    <span className="text-gray-400">3 weeks ago</span>
+                    <span className="text-gray-600">Profile setup initiated</span>
+                    <span className="text-gray-400">Today</span>
                   </div>
                 </div>
               </CardContent>
@@ -301,21 +331,21 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="h-8 w-8 bg-primary/20 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-4 w-4 text-primary" />
+                      <User className="h-4 w-4 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-dark-gray">Program Graduate</p>
-                      <p className="text-xs text-gray-500">Career Development</p>
+                      <p className="text-sm font-medium text-dark-gray">New Member</p>
+                      <p className="text-xs text-gray-500">Welcome to the community!</p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <div className="h-8 w-8 bg-secondary/20 rounded-full flex items-center justify-center">
-                      <Users className="h-4 w-4 text-secondary" />
+                      <BookOpen className="h-4 w-4 text-secondary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-dark-gray">Community Leader</p>
-                      <p className="text-xs text-gray-500">Volunteer Mentor</p>
+                      <p className="text-sm font-medium text-dark-gray">Profile Started</p>
+                      <p className="text-xs text-gray-500">Complete your profile</p>
                     </div>
                   </div>
 
@@ -324,8 +354,8 @@ export default function DashboardPage() {
                       <Home className="h-4 w-4 text-accent" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-dark-gray">Cooperative Member</p>
-                      <p className="text-xs text-gray-500">5 years strong</p>
+                      <p className="text-sm font-medium text-dark-gray">Community Explorer</p>
+                      <p className="text-xs text-gray-500">Exploring programs</p>
                     </div>
                   </div>
                 </div>

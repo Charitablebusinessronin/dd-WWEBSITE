@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Registration - Difference Driven Community Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="images/dd-logo.png" alt="Difference Driven Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h1>Difference Driven</h1>
+                        <p>Community Center</p>
+                    </div>
+                </div>
+
+                <nav class="nav-desktop">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">OUR COMMUNITY <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="about.html">About Us</a>
+                            <a href="programs.html">Programs & Services</a>
+                            <a href="housing.html">Housing Cooperatives</a>
+                            <a href="events.html">Upcoming Events</a>
+                            <a href="stories.html">Community Stories</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">MEMBERSHIP <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="membership.html">Join Our Community</a>
+                            <a href="get-involved.html">Get Involved</a>
+                            <a href="register.html">Program Registration</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link">MY DD ACCOUNT <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="login.html">Login</a>
+                            <a href="register.html">Create Account</a>
+                            <a href="dashboard.html">My Dashboard</a>
+                            <a href="forgot-password.html">Reset Password</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <a href="contact.html" class="btn btn-primary">DONATE TODAY</a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="about.html">About Us</a>
+                <a href="programs.html">Programs & Services</a>
+                <a href="membership.html">Membership</a>
+                <a href="login.html">Login</a>
+                <a href="contact.html" class="btn btn-primary">DONATE TODAY</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Program Registration</h1>
+                <p>Register for our transformative programs and start your journey with us</p>
+                <nav class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Program Registration</span>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Steps -->
+    <section class="registration-steps">
+        <div class="container">
+            <div class="steps-header">
+                <h2>How to Register</h2>
+                <p>Follow these simple steps to join our programs</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Choose Your Program</h3>
+                    <p>Browse our available programs and select the ones that interest you</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Fill Out Registration</h3>
+                    <p>Complete the registration form with your information and preferences</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Submit & Confirm</h3>
+                    <p>Submit your registration and receive confirmation within 24 hours</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Start Learning</h3>
+                    <p>Attend your first session and begin your transformative journey</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Programs -->
+    <section class="available-programs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Available Programs</h2>
+                <p>Choose from our comprehensive selection of community programs</p>
+            </div>
+            
+            <div class="program-categories">
+                <div class="category-tabs">
+                    <button class="tab-btn active" data-category="all">All Programs</button>
+                    <button class="tab-btn" data-category="career">Career Development</button>
+                    <button class="tab-btn" data-category="health">Health & Wellness</button>
+                    <button class="tab-btn" data-category="education">Education</button>
+                    <button class="tab-btn" data-category="youth">Youth Programs</button>
+                </div>
+
+                <div class="programs-list">
+                    <!-- Career Development Programs -->
+                    <div class="program-item" data-category="career">
+                        <div class="program-image">
+                            <img src="images/career-development.png" alt="Career Development">
+                            <div class="program-badge">Popular</div>
+                        </div>
+                        <div class="program-details">
+                            <h3>Professional Skills Development</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 8 weeks</span>
+                                <span><i class="fas fa-clock"></i> Tuesdays 6-8 PM</span>
+                                <span><i class="fas fa-users"></i> 15 spots available</span>
+                            </div>
+                            <p>Develop essential workplace skills including communication, leadership, and project management. Perfect for career advancement.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Resume Building</span>
+                                <span class="feature-tag">Interview Prep</span>
+                                <span class="feature-tag">Networking</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free for Members</span>
+                                <button class="btn btn-accent register-btn" data-program="professional-skills">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-item" data-category="career">
+                        <div class="program-image">
+                            <img src="images/community-workshop.png" alt="Entrepreneurship Workshop">
+                        </div>
+                        <div class="program-details">
+                            <h3>Small Business & Entrepreneurship</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 6 weeks</span>
+                                <span><i class="fas fa-clock"></i> Saturdays 10 AM-12 PM</span>
+                                <span><i class="fas fa-users"></i> 12 spots available</span>
+                            </div>
+                            <p>Learn how to start and grow your own business with practical tools, mentorship, and community support.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Business Planning</span>
+                                <span class="feature-tag">Financial Literacy</span>
+                                <span class="feature-tag">Marketing</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">$25 Materials Fee</span>
+                                <button class="btn btn-accent register-btn" data-program="entrepreneurship">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health & Wellness Programs -->
+                    <div class="program-item" data-category="health">
+                        <div class="program-image">
+                            <img src="images/health-education.png" alt="Health Education">
+                            <div class="program-badge">New</div>
+                        </div>
+                        <div class="program-details">
+                            <h3>Community Health & Nutrition</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 4 weeks</span>
+                                <span><i class="fas fa-clock"></i> Thursdays 7-8:30 PM</span>
+                                <span><i class="fas fa-users"></i> 20 spots available</span>
+                            </div>
+                            <p>Learn about healthy eating, meal planning, and preventive health care with certified nutritionists and health educators.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Meal Planning</span>
+                                <span class="feature-tag">Cooking Classes</span>
+                                <span class="feature-tag">Health Screenings</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free for Members</span>
+                                <button class="btn btn-accent register-btn" data-program="health-nutrition">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-item" data-category="health">
+                        <div class="program-image">
+                            <img src="images/community-family.png" alt="Mental Health Support">
+                        </div>
+                        <div class="program-details">
+                            <h3>Mental Health & Wellness Support</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> Ongoing</span>
+                                <span><i class="fas fa-clock"></i> Wednesdays 6-7:30 PM</span>
+                                <span><i class="fas fa-users"></i> Open Group</span>
+                            </div>
+                            <p>Join our supportive community group focused on mental health awareness, stress management, and emotional wellness.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Peer Support</span>
+                                <span class="feature-tag">Stress Management</span>
+                                <span class="feature-tag">Mindfulness</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free & Confidential</span>
+                                <button class="btn btn-accent register-btn" data-program="mental-health">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education Programs -->
+                    <div class="program-item" data-category="education">
+                        <div class="program-image">
+                            <img src="images/community-events.png" alt="Financial Literacy">
+                        </div>
+                        <div class="program-details">
+                            <h3>Financial Literacy & Planning</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 6 weeks</span>
+                                <span><i class="fas fa-clock"></i> Mondays 6:30-8 PM</span>
+                                <span><i class="fas fa-users"></i> 18 spots available</span>
+                            </div>
+                            <p>Master personal finance, budgeting, saving, and investment strategies to build long-term financial security.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Budgeting</span>
+                                <span class="feature-tag">Credit Building</span>
+                                <span class="feature-tag">Investment Basics</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free for Members</span>
+                                <button class="btn btn-accent register-btn" data-program="financial-literacy">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-item" data-category="education">
+                        <div class="program-image">
+                            <img src="images/art-workshop.png" alt="Digital Skills">
+                        </div>
+                        <div class="program-details">
+                            <h3>Digital Skills & Technology</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 5 weeks</span>
+                                <span><i class="fas fa-clock"></i> Fridays 5:30-7 PM</span>
+                                <span><i class="fas fa-users"></i> 10 spots available</span>
+                            </div>
+                            <p>Learn essential computer skills, internet safety, and digital communication tools for work and personal use.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Computer Basics</span>
+                                <span class="feature-tag">Internet Safety</span>
+                                <span class="feature-tag">Email & Communication</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free for Members</span>
+                                <button class="btn btn-accent register-btn" data-program="digital-skills">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Youth Programs -->
+                    <div class="program-item" data-category="youth">
+                        <div class="program-image">
+                            <img src="images/youth-basketball.png" alt="Youth Leadership">
+                            <div class="program-badge">Ages 13-18</div>
+                        </div>
+                        <div class="program-details">
+                            <h3>Youth Leadership Academy</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> 10 weeks</span>
+                                <span><i class="fas fa-clock"></i> Saturdays 2-4 PM</span>
+                                <span><i class="fas fa-users"></i> 15 spots available</span>
+                            </div>
+                            <p>Empower young leaders with skills in communication, project management, and community organizing.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Leadership Skills</span>
+                                <span class="feature-tag">Public Speaking</span>
+                                <span class="feature-tag">Community Projects</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">Free Program</span>
+                                <button class="btn btn-accent register-btn" data-program="youth-leadership">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-item" data-category="youth">
+                        <div class="program-image">
+                            <img src="images/youth-community.png" alt="After School Program">
+                            <div class="program-badge">Ages 8-14</div>
+                        </div>
+                        <div class="program-details">
+                            <h3>After School Academic Support</h3>
+                            <div class="program-meta">
+                                <span><i class="fas fa-calendar"></i> School Year</span>
+                                <span><i class="fas fa-clock"></i> Mon-Fri 3:30-6 PM</span>
+                                <span><i class="fas fa-users"></i> 25 spots available</span>
+                            </div>
+                            <p>Homework help, tutoring, and enrichment activities in a safe, supportive environment after school.</p>
+                            <div class="program-features">
+                                <span class="feature-tag">Homework Help</span>
+                                <span class="feature-tag">Tutoring</span>
+                                <span class="feature-tag">Arts & Crafts</span>
+                            </div>
+                            <div class="program-actions">
+                                <span class="program-price">$50/month</span>
+                                <button class="btn btn-accent register-btn" data-program="after-school">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Form Modal -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Program Registration</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="registration-form" id="registrationForm">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" placeholder="Street Address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">ZIP Code</label>
+                                <input type="text" id="zipCode" name="zipCode">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Program Information</h3>
+                        <div class="form-group">
+                            <label for="selectedProgram">Selected Program</label>
+                            <input type="text" id="selectedProgram" name="selectedProgram" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="membershipStatus">Membership Status</label>
+                            <select id="membershipStatus" name="membershipStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="current-member">Current Member</option>
+                                <option value="new-member">I want to become a member</option>
+                                <option value="non-member">Non-member (program fees apply)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyContact">Emergency Contact Name</label>
+                            <input type="text" id="emergencyContact" name="emergencyContact">
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyPhone">Emergency Contact Phone</label>
+                            <input type="tel" id="emergencyPhone" name="emergencyPhone">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Additional Information</h3>
+                        <div class="form-group">
+                            <label for="experience">Relevant Experience or Background</label>
+                            <textarea id="experience" name="experience" rows="3" placeholder="Tell us about any relevant experience or what you hope to gain from this program"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="accommodations">Special Accommodations Needed</label>
+                            <textarea id="accommodations" name="accommodations" rows="2" placeholder="Please describe any accommodations you may need"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="hearAbout">How did you hear about us?</label>
+                            <select id="hearAbout" name="hearAbout">
+                                <option value="">Select an option</option>
+                                <option value="friend">Friend or family member</option>
+                                <option value="social-media">Social media</option>
+                                <option value="website">Website</option>
+                                <option value="community-event">Community event</option>
+                                <option value="flyer">Flyer or poster</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter" value="yes">
+                                <span class="checkmark"></span>
+                                I would like to receive updates about programs and events
+                            </label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="terms" value="yes" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="terms.html" target="_blank">terms and conditions</a> *
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelRegistration">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Success -->
+    <div class="registration-info">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Have Questions?</h3>
+                    <p>Contact our program coordinator for more information about any of our programs.</p>
+                    <a href="contact.html" class="btn btn-outline">Contact Us</a>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Become a Member</h3>
+                    <p>Members get free access to most programs and priority registration for popular classes.</p>
+                    <a href="membership.html" class="btn btn-outline">Join Today</a>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>View Schedule</h3>
+                    <p>Check out our full program schedule and upcoming events calendar.</p>
+                    <a href="programs.html" class="btn btn-outline">View Schedule</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Difference Driven Community Center</h3>
+                    <p>1234 Community Drive<br>Charlotte, NC 28205</p>
+                    <p>Phone: (704) 555-3322<br>Email: info@differencedriven.org</p>
+                    <p>501(c)(3) nonprofit organization</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="events.html">Events Calendar</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Stay Connected</h3>
+                    <p>Subscribe to our newsletter</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Difference Driven Community Center. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Social Sidebar -->
+    <div class="social-sidebar">
+        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="registration.js"></script>
+</body>
+</html>

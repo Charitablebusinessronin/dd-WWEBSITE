@@ -69,125 +69,249 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="contact-hero">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <div class="contact-hero-content">
-                <h1>Contact & Support Us</h1>
-                <p>Get in touch with our team or make a donation to support our community programs</p>
+            <div class="page-header-content">
+                <h1>Contact & Support</h1>
+                <p>Get in touch with us or support our mission through donation</p>
+                <nav class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Contact</span>
+                </nav>
             </div>
         </div>
     </section>
 
-    <!-- Contact Content -->
-    <section class="contact-content">
+    <!-- Contact Information -->
+    <section class="contact-info">
         <div class="container">
             <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Visit Us</h3>
+                    <p>1234 Community Drive<br>Charlotte, NC 28205</p>
+                    <a href="https://maps.google.com" target="_blank" class="contact-link">Get Directions</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Call Us</h3>
+                    <p>Main: (704) 555-3322<br>Programs: (704) 555-3323</p>
+                    <a href="tel:+17045553322" class="contact-link">Call Now</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Us</h3>
+                    <p>info@differencedriven.org<br>programs@differencedriven.org</p>
+                    <a href="mailto:info@differencedriven.org" class="contact-link">Send Email</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Hours</h3>
+                    <p>Mon-Fri: 9 AM - 8 PM<br>Sat-Sun: 10 AM - 6 PM</p>
+                    <a href="about.html#hours" class="contact-link">View Schedule</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Donation -->
+    <section class="contact-donation">
+        <div class="container">
+            <div class="contact-donation-grid">
                 <!-- Contact Form -->
                 <div class="contact-form-section">
-                    <div class="contact-card">
-                        <h2>Send Us a Message</h2>
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="name">Full Name *</label>
-                                    <input type="text" id="name" name="name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email Address *</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="phone">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone">
-                                </div>
-                                <div class="form-group">
-                                    <label for="subject">Subject *</label>
-                                    <input type="text" id="subject" name="subject" required>
-                                </div>
+                    <h2>Send Us a Message</h2>
+                    <p>Have questions about our programs or want to get involved? We'd love to hear from you!</p>
+                    
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName">Full Name *</label>
+                                <input type="text" id="contactName" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label for="message">Message *</label>
-                                <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                                <label for="contactEmail">Email Address *</label>
+                                <input type="email" id="contactEmail" name="email" required>
                             </div>
-                            <button type="submit" class="btn btn-secondary">Send Message</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactPhone">Phone Number</label>
+                                <input type="tel" id="contactPhone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactSubject">Subject *</label>
+                                <select id="contactSubject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Information</option>
+                                    <option value="programs">Program Information</option>
+                                    <option value="membership">Membership</option>
+                                    <option value="housing">Housing Cooperatives</option>
+                                    <option value="volunteer">Volunteer Opportunities</option>
+                                    <option value="donation">Donation Questions</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message *</label>
+                            <textarea id="contactMessage" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter" value="yes">
+                                <span class="checkmark"></span>
+                                I would like to receive updates about programs and events
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
                 </div>
 
-                <!-- Contact Information & Donation -->
-                <div class="contact-info-section">
-                    <!-- Contact Info -->
-                    <div class="contact-card">
-                        <h2>Get In Touch</h2>
-                        <div class="contact-info-grid">
-                            <div class="contact-info-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <h3>Address</h3>
-                                    <p>1234 Community Drive<br>Charlotte, NC 28205</p>
-                                </div>
-                            </div>
-                            <div class="contact-info-item">
-                                <i class="fas fa-phone"></i>
-                                <div>
-                                    <h3>Phone</h3>
-                                    <p>Main: (704) 555-3322<br>Programs: (704) 555-7764<br>Crisis Line: (704) 555-4357</p>
-                                </div>
-                            </div>
-                            <div class="contact-info-item">
-                                <i class="fas fa-envelope"></i>
-                                <div>
-                                    <h3>Email</h3>
-                                    <p>info@differencedriven.org<br>programs@differencedriven.org</p>
-                                </div>
-                            </div>
-                            <div class="contact-info-item">
-                                <i class="fas fa-clock"></i>
-                                <div>
-                                    <h3>Hours</h3>
-                                    <p>Mon-Fri: 8:00 AM - 8:00 PM<br>Sat: 9:00 AM - 5:00 PM<br>Sun: 12:00 PM - 5:00 PM</p>
-                                </div>
-                            </div>
+                <!-- Donation Section -->
+                <div class="donation-section">
+                    <h2>Support Our Mission</h2>
+                    <p>Your donation helps us provide essential programs and services to our community. Every contribution makes a difference!</p>
+                    
+                    <div class="donation-impact">
+                        <h3>Your Impact</h3>
+                        <div class="impact-item">
+                            <span class="impact-amount">$25</span>
+                            <span class="impact-description">Provides materials for one student in our career development program</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-amount">$50</span>
+                            <span class="impact-description">Sponsors a family's participation in our health education program</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-amount">$100</span>
+                            <span class="impact-description">Funds a week of after-school programming for youth</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-amount">$250</span>
+                            <span class="impact-description">Supports housing cooperative development initiatives</span>
                         </div>
                     </div>
 
-                    <!-- Donation Section -->
-                    <div class="contact-card donation-card">
-                        <h2><i class="fas fa-heart"></i> Support Our Mission</h2>
-                        <p>Your donation helps us provide essential programs and services to our community members.</p>
-                        
+                    <form class="donation-form" id="donationForm">
+                        <h3>Choose Your Donation Amount</h3>
                         <div class="donation-amounts">
-                            <button class="donation-btn" onclick="selectDonationAmount(25)">$25</button>
-                            <button class="donation-btn" onclick="selectDonationAmount(50)">$50</button>
-                            <button class="donation-btn" onclick="selectDonationAmount(100)">$100</button>
-                            <button class="donation-btn" onclick="selectDonationAmount(250)">$250</button>
+                            <button type="button" class="amount-btn" data-amount="25">$25</button>
+                            <button type="button" class="amount-btn" data-amount="50">$50</button>
+                            <button type="button" class="amount-btn" data-amount="100">$100</button>
+                            <button type="button" class="amount-btn" data-amount="250">$250</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="customAmount">Custom Amount</label>
+                            <div class="amount-input">
+                                <span class="currency">$</span>
+                                <input type="number" id="customAmount" name="donationAmount" min="1" placeholder="Enter amount">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="donationType">Donation Type</label>
+                            <select id="donationType" name="donationType">
+                                <option value="one-time">One-time donation</option>
+                                <option value="monthly">Monthly recurring</option>
+                                <option value="quarterly">Quarterly recurring</option>
+                                <option value="annual">Annual recurring</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="customAmount">Custom Amount</label>
-                            <input type="number" id="customAmount" name="donationAmount" placeholder="Enter amount">
+                            <label for="donationPurpose">Designation (Optional)</label>
+                            <select id="donationPurpose" name="donationPurpose">
+                                <option value="general">General Operating Fund</option>
+                                <option value="programs">Program Development</option>
+                                <option value="housing">Housing Cooperatives</option>
+                                <option value="youth">Youth Programs</option>
+                                <option value="education">Education & Training</option>
+                                <option value="health">Health & Wellness</option>
+                            </select>
                         </div>
 
-                        <button class="btn btn-accent donation-submit">Donate Now</button>
-
-                        <div class="donation-impact">
-                            <div class="impact-item">
-                                <i class="fas fa-users"></i>
-                                <span>$25 provides meals for 5 community members</span>
+                        <div class="donor-info">
+                            <h4>Donor Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="donorName">Full Name</label>
+                                    <input type="text" id="donorName" name="donorName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="donorEmail">Email Address</label>
+                                    <input type="email" id="donorEmail" name="donorEmail">
+                                </div>
                             </div>
-                            <div class="impact-item">
-                                <i class="fas fa-bullseye"></i>
-                                <span>$100 funds a week of youth programming</span>
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="anonymous" value="yes">
+                                    <span class="checkmark"></span>
+                                    Make this donation anonymous
+                                </label>
                             </div>
-                            <div class="impact-item">
-                                <i class="fas fa-heart"></i>
-                                <span>$250 supports a family in crisis for a month</span>
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="donorUpdates" value="yes">
+                                    <span class="checkmark"></span>
+                                    Send me updates on how my donation is being used
+                                </label>
                             </div>
                         </div>
-                    </div>
+
+                        <button type="submit" class="btn btn-accent btn-large">Donate Now</button>
+                        
+                        <div class="donation-security">
+                            <p><i class="fas fa-lock"></i> Your donation is secure and encrypted</p>
+                            <p><i class="fas fa-certificate"></i> Tax-deductible receipt will be emailed to you</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Support -->
+    <section class="community-support">
+        <div class="container">
+            <div class="section-header">
+                <h2>Other Ways to Support</h2>
+                <p>There are many ways to get involved and support our community</p>
+            </div>
+            <div class="support-grid">
+                <div class="support-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Volunteer</h3>
+                    <p>Share your skills and time to help our programs succeed</p>
+                    <a href="get-involved.html" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="support-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>In-Kind Donations</h3>
+                    <p>Donate supplies, equipment, or services to support our mission</p>
+                    <a href="#" class="btn btn-outline">View Wish List</a>
+                </div>
+                <div class="support-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Corporate Partnership</h3>
+                    <p>Partner with us to create lasting impact in the community</p>
+                    <a href="#" class="btn btn-outline">Partner With Us</a>
+                </div>
+                <div class="support-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Host an Event</h3>
+                    <p>Organize a fundraising event to support our programs</p>
+                    <a href="#" class="btn btn-outline">Get Started</a>
                 </div>
             </div>
         </div>
@@ -196,21 +320,40 @@
     <!-- Map Section -->
     <section class="map-section">
         <div class="container">
-            <div class="contact-card">
-                <h2>Visit Our Community Center</h2>
-                <div class="map-placeholder">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p><strong>Interactive Map Coming Soon</strong></p>
-                    <p>1234 Community Drive, Charlotte, NC 28205</p>
-                </div>
+            <div class="map-content">
                 <div class="map-info">
-                    <div class="map-info-item">
-                        <h3>Public Transportation</h3>
-                        <p>Bus Routes: 15, 23, 45<br>Light Rail: Blue Line (Community Station - 0.3 miles)</p>
+                    <h2>Visit Our Community Center</h2>
+                    <p>Located in the heart of Charlotte, our community center is easily accessible by public transportation and offers free parking.</p>
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>1234 Community Drive, Charlotte, NC 28205</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-bus"></i>
+                            <span>Bus routes 15, 23, and 45 stop nearby</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-parking"></i>
+                            <span>Free parking available on-site</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-wheelchair"></i>
+                            <span>Fully accessible facility</span>
+                        </div>
                     </div>
-                    <div class="map-info-item">
-                        <h3>Parking</h3>
-                        <p>Free parking available in our lot<br>Street parking also available</p>
+                </div>
+                <div class="map-placeholder">
+                    <div class="map-embed">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3259.123456789!2d-80.8431!3d35.2271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDEzJzM3LjYiTiA4MMKwNTAnMzUuMiJX!5e0!3m2!1sen!2sus!4v1234567890123"
+                            width="100%" 
+                            height="300" 
+                            style="border:0; border-radius: 10px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>
@@ -262,280 +405,15 @@
         </div>
     </footer>
 
+    <!-- Social Sidebar -->
+    <div class="social-sidebar">
+        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+
     <script src="script.js"></script>
-    <script>
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (validateContactForm(this)) {
-                alert('Thank you for your message! We\'ll get back to you soon.');
-                this.reset();
-            }
-        });
-
-        // Donation amount selection
-        function selectDonationAmount(amount) {
-            document.getElementById('customAmount').value = amount;
-            // Remove active class from all buttons
-            document.querySelectorAll('.donation-btn').forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            event.target.classList.add('active');
-        }
-
-        // Donation submission
-        document.querySelector('.donation-submit').addEventListener('click', function() {
-            const amount = document.getElementById('customAmount').value;
-            if (amount && amount > 0) {
-                alert(`Thank you for your donation of $${amount}! You will be redirected to our secure payment processor.`);
-                // Here you would integrate with a payment processor like Stripe or PayPal
-            } else {
-                alert('Please select or enter a donation amount.');
-            }
-        });
-    </script>
-
-    <style>
-        /* Contact Page Specific Styles */
-        .contact-hero {
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            color: var(--white);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .contact-hero-content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .contact-hero-content p {
-            font-size: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-content {
-            padding: 80px 0;
-            background-color: var(--light-gray);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .contact-card {
-            background-color: var(--white);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .contact-card h2 {
-            font-size: 28px;
-            color: var(--secondary-color);
-            margin-bottom: 30px;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .contact-info-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .contact-info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .contact-info-item i {
-            font-size: 24px;
-            color: var(--accent-color);
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-
-        .contact-info-item h3 {
-            font-size: 18px;
-            color: var(--dark-gray);
-            margin-bottom: 8px;
-        }
-
-        .contact-info-item p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .donation-card {
-            background: linear-gradient(135deg, var(--primary-color), #ecc94b);
-            color: var(--dark-gray);
-        }
-
-        .donation-card h2 {
-            color: var(--dark-gray);
-        }
-
-        .donation-amounts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .donation-btn {
-            padding: 15px;
-            background-color: var(--white);
-            border: 2px solid var(--dark-gray);
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .donation-btn:hover,
-        .donation-btn.active {
-            background-color: var(--dark-gray);
-            color: var(--white);
-        }
-
-        .donation-submit {
-            width: 100%;
-            margin: 20px 0;
-        }
-
-        .donation-impact {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 2px solid rgba(45, 55, 72, 0.2);
-        }
-
-        .impact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .impact-item i {
-            color: var(--dark-gray);
-            font-size: 16px;
-        }
-
-        .map-section {
-            padding: 80px 0;
-            background-color: var(--white);
-        }
-
-        .map-placeholder {
-            background-color: var(--light-gray);
-            height: 300px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            color: #666;
-        }
-
-        .map-placeholder i {
-            font-size: 48px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        .map-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .map-info-item h3 {
-            font-size: 18px;
-            color: var(--dark-gray);
-            margin-bottom: 10px;
-        }
-
-        .map-info-item p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* Responsive Design for Contact Page */
-        @media (max-width: 1024px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .contact-hero-content h1 {
-                font-size: 36px;
-            }
-
-            .contact-hero-content p {
-                font-size: 18px;
-            }
-
-            .contact-card {
-                padding: 25px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .donation-amounts {
-                grid-template-columns: 1fr;
-            }
-
-            .map-info {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <script src="contact.js"></script>
 </body>
 </html>
