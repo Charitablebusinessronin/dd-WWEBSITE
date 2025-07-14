@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("selectedProgram").value = programName
         modal.style.display = "block"
         document.body.style.overflow = "hidden"
+        scrollModalToTop() // Scroll to top of modal when opening
       }
     })
   })
@@ -96,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showSuccessMessage()
         submitBtn.textContent = originalText
         submitBtn.disabled = false
+        clearSavedFormData() // Clear saved data on successful submission
       }, 2000)
     }
   })
@@ -125,6 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const phoneField = document.getElementById("phone")
     if (phoneField.value && !validatePhone(phoneField.value)) {
       showFieldError(phoneField, "Please enter a valid phone number")
+      isValid = false
+    }
+
+    // Password validation
+    const passwordField = document.getElementById("password")
+    if (passwordField.value && passwordField.value.length < 8) {
+      showFieldError(passwordField, "Password must be at least 8 characters")
       isValid = false
     }
 

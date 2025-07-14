@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const donationForm = document.getElementById("donationForm")
   const amountBtns = document.querySelectorAll(".amount-btn")
   const customAmountInput = document.getElementById("customAmount")
+  const phoneInput = document.getElementById("contactPhone")
 
   // Contact form submission
   if (contactForm) {
@@ -193,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Phone number formatting for contact form
-  const phoneInput = document.getElementById("contactPhone")
   if (phoneInput) {
     phoneInput.addEventListener("input", (e) => {
       let value = e.target.value.replace(/\D/g, "")
@@ -252,46 +252,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   }
-})
 
-// Utility function for donation impact calculator
-function calculateImpact(amount) {
-  const impacts = [
-    { threshold: 250, message: "Supports housing cooperative development initiatives" },
-    { threshold: 100, message: "Funds a week of after-school programming for youth" },
-    { threshold: 50, message: "Sponsors a family's participation in our health education program" },
-    { threshold: 25, message: "Provides materials for one student in our career development program" },
-    { threshold: 1, message: "Every dollar helps strengthen our community" },
-  ]
-
-  for (const impact of impacts) {
-    if (amount >= impact.threshold) {
-      return impact.message
-    }
-  }
-
-  return "Thank you for your support!"
-}
-
-// Add impact display when amount changes
-document.addEventListener("DOMContentLoaded", () => {
-  const customAmountInput = document.getElementById("customAmount")
+  // Donation impact calculator
+  const impactDisplay = document.createElement("div")
+  impactDisplay.className = "impact-display"
+  impactDisplay.style.cssText = `
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f9ff;
+    border-left: 4px solid var(--accent-color);
+    border-radius: 5px;
+    font-size: 14px;
+    color: #666;
+    display: none;
+  `
 
   if (customAmountInput) {
-    // Create impact display element
-    const impactDisplay = document.createElement("div")
-    impactDisplay.className = "impact-display"
-    impactDisplay.style.cssText = `
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f0f9ff;
-      border-left: 4px solid var(--accent-color);
-      border-radius: 5px;
-      font-size: 14px;
-      color: #666;
-      display: none;
-    `
-
     customAmountInput.parentNode.appendChild(impactDisplay)
 
     customAmountInput.addEventListener("input", (e) => {
@@ -305,5 +281,23 @@ document.addEventListener("DOMContentLoaded", () => {
         impactDisplay.style.display = "none"
       }
     })
+  }
+
+  function calculateImpact(amount) {
+    const impacts = [
+      { threshold: 250, message: "Supports housing cooperative development initiatives" },
+      { threshold: 100, message: "Funds a week of after-school programming for youth" },
+      { threshold: 50, message: "Sponsors a family's participation in our health education program" },
+      { threshold: 25, message: "Provides materials for one student in our career development program" },
+      { threshold: 1, message: "Every dollar helps strengthen our community" },
+    ]
+
+    for (const impact of impacts) {
+      if (amount >= impact.threshold) {
+        return impact.message
+      }
+    }
+
+    return "Thank you for your support!"
   }
 })
