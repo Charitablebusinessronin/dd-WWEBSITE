@@ -84,18 +84,28 @@ export default function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-1 text-dark-gray hover:text-accent transition-colors font-medium">
-                <span>Housing</span>
+                <span>Housing Initiative</span>
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white border shadow-lg">
                 <DropdownMenuItem asChild>
-                  <Link href="/housing-cooperatives" className="text-dark-gray hover:text-accent">
-                    Housing Cooperatives
+                  <Link href="/housing" className="text-dark-gray hover:text-accent">
+                    Housing Overview
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/housing-cooperatives/data" className="text-dark-gray hover:text-accent">
-                    Housing Data
+                  <Link href="/housing/research" className="text-dark-gray hover:text-accent">
+                    Research & Data
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/housing/cooperatives" className="text-dark-gray hover:text-accent">
+                    Cooperative Models
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/housing/north-carolina" className="text-dark-gray hover:text-accent">
+                    North Carolina Context
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -185,15 +195,21 @@ export default function Header() {
               </div>
 
               <div className="flex flex-col space-y-2">
-                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Housing</span>
-                <Link href="/housing-cooperatives" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Housing Cooperatives
+                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Housing Initiative</span>
+                <Link href="/housing" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Housing Overview
+                </Link>
+                <Link href="/housing/research" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Research & Data
+                </Link>
+                <Link href="/housing/cooperatives" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Cooperative Models
                 </Link>
                 <Link
-                  href="/housing-cooperatives/data"
+                  href="/housing/north-carolina"
                   className="pl-4 text-dark-gray hover:text-accent transition-colors"
                 >
-                  Housing Data
+                  North Carolina Context
                 </Link>
               </div>
 
