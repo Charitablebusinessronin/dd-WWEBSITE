@@ -1,298 +1,343 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Heart, Mic, Users, Home } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BookOpen, Heart, Users, ArrowRight, CheckCircle, Clock, MapPin } from "lucide-react"
 
 export default function ProgramsPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[400px] overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/community-workshop.png" alt="Our Programs & Services" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-dark-gray/50" />
-        </div>
-        <div className="relative flex h-full items-center">
-          <div className="container mx-auto px-6">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Our Programs & Services</h1>
-              <p className="mt-6 max-w-xl text-lg text-white">
-                Discover the various ways we're empowering our community through creative expression, practical support,
-                and collaborative growth.
-              </p>
-            </div>
-          </div>
+      <section className="relative py-20 bg-gradient-to-r from-primary to-secondary">
+        <div className="container mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Our Programs</h1>
+          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+            Empowering our community through comprehensive programs designed to support your journey toward success
+          </p>
         </div>
       </section>
 
-      {/* Programs Overview */}
+      {/* Featured Programs */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl">
-              Empowering Through Community & Creativity
-            </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-              Our programs are designed to provide practical support while nurturing creative expression and building
-              community connections.
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Featured Programs</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Discover our most popular programs and activities</p>
           </div>
-        </div>
-      </section>
 
-      {/* Community Support Services */}
-      <section id="community-support" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
-                <Heart className="h-6 w-6 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Career Development Card */}
+            <Card className="overflow-hidden h-full flex flex-col">
+              <div className="relative h-64">
+                <Image src="/career-development.png" alt="Career Development Program" fill className="object-cover" />
+                <div className="absolute inset-0 bg-black/40 flex items-end">
+                  <div className="p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">Career Development</h3>
+                    <p className="text-white/90">Skills, resources, and mentorship for career advancement</p>
+                  </div>
+                </div>
               </div>
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">Empowering Daily Life</h2>
-              <p className="text-gray-600 mb-4">
-                Life can be challenging, but you don't have to face it alone. Our community support services provide
-                practical assistance and resources to help you thrive.
-              </p>
-
-              <h3 className="text-xl font-bold text-dark-gray mb-4">Our Support Includes:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
-                <li>
-                  <strong>Daily Life Skills Assistance</strong> - Practical support for everyday challenges like
-                  budgeting, time management, and organization
-                </li>
-                <li>
-                  <strong>Food Resource Help</strong> - Assistance accessing food vouchers, food banks, and nutrition
-                  programs
-                </li>
-                <li>
-                  <strong>Housing Assistance</strong> - Support finding affordable housing, understanding tenant rights,
-                  and maintaining stable living situations
-                </li>
-                <li>
-                  <strong>Personal Care Support</strong> - Help with daily living activities and connecting to care
-                  resources
-                </li>
-                <li>
-                  <strong>Resource Navigation</strong> - Connecting you to local services, government programs, and
-                  community resources
-                </li>
-              </ul>
-
-              <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray font-semibold">
-                <Link href="/contact">Contribute to This Mission</Link>
-              </Button>
-            </div>
-
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image src="/community-member-2.png" alt="Community Support Services" fill className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Creative & Media Services */}
-      <section id="creative-media" className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image src="/youth-basketball.png" alt="Creative & Media Services" fill className="object-cover" />
-            </div>
-
-            <div className="order-1 lg:order-2">
-              <div className="h-12 w-12 rounded-full bg-secondary/20 flex items-center justify-center mb-4">
-                <Mic className="h-6 w-6 text-secondary" />
-              </div>
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">
-                Your Creative Vision, Professional Results
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Turn your ideas into reality with our state-of-the-art creative facilities. Whether you're recording
-                your first song or launching a podcast empire, we have the tools and space you need.
-              </p>
-
-              <h3 className="text-xl font-bold text-dark-gray mb-4">Creative Facilities:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
-                <li>
-                  <strong>Professional Recording Studio</strong> - Industry-standard equipment for music production,
-                  voiceovers, and audio projects
-                </li>
-                <li>
-                  <strong>Podcast Production Space</strong> - Dedicated podcast recording with acoustic treatment and
-                  professional microphones
-                </li>
-                <li>
-                  <strong>Broadcasting Equipment</strong> - Live streaming setup for social media, radio shows, and
-                  online content
-                </li>
-                <li>
-                  <strong>Content Creation Workshops</strong> - Learn production skills, marketing strategies, and
-                  technical expertise
-                </li>
-              </ul>
-
-              <Button asChild className="bg-secondary hover:bg-secondary/90 text-white font-semibold">
-                <Link href="/contact">Contribute to This Mission</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Wellness & Development */}
-      <section id="wellness" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <Users className="h-6 w-6 text-accent" />
-              </div>
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">Grow Mind, Body, and Spirit</h2>
-              <p className="text-gray-600 mb-4">
-                Personal growth happens when we nurture every aspect of ourselves. Our wellness and development programs
-                support your journey to becoming your best self.
-              </p>
-
-              <h3 className="text-xl font-bold text-dark-gray mb-4">Programs Include:</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
-                <li>
-                  <strong>Yoga and Meditation Space</strong> - Peaceful environment for physical fitness and mental
-                  wellness
-                </li>
-                <li>
-                  <strong>Career Development</strong> - Job skills training, resume building, interview preparation, and
-                  job placement assistance
-                </li>
-                <li>
-                  <strong>Life Skills Training</strong> - Financial literacy, communication skills, conflict resolution,
-                  and personal development
-                </li>
-                <li>
-                  <strong>Health Education</strong> - Wellness workshops, nutrition guidance, and mental health
-                  resources
-                </li>
-              </ul>
-
-              <Button asChild className="bg-accent hover:bg-accent/90 text-white font-semibold">
-                <Link href="/contact">Contribute to This Mission</Link>
-              </Button>
-            </div>
-
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image src="/community-family.png" alt="Wellness & Development Programs" fill className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Community-Owned Housing Initiative */}
-      <section id="housing" className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image
-                src="/community-youth.png"
-                alt="Community-Owned Housing Initiative"
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <div className="order-1 lg:order-2">
-              <div className="h-12 w-12 rounded-full bg-green/20 flex items-center justify-center mb-4">
-                <Home className="h-6 w-6 text-green" />
-              </div>
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">
-                Your Path to Affordable Home Ownership
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Housing is a human right, and homeownership shouldn't be out of reach. Our community-owned housing
-                initiative is working to create affordable pathways to homeownership in our neighborhood.
-              </p>
-              <p className="text-gray-600 mb-6">
-                <strong>Our Housing Mission:</strong> We're developing innovative approaches to affordable housing that
-                keep communities together while building wealth and stability for families. Through cooperative
-                ownership models and community land trusts, we're making homeownership accessible.
-              </p>
-              <p className="text-gray-600 mb-6">
-                <strong>How You Can Help:</strong> This initiative is currently in development as we raise funds and
-                build partnerships. Your contribution helps us research, plan, and implement housing solutions that
-                serve our community's needs.
-              </p>
-
-              <Button asChild className="bg-green hover:bg-green/90 text-dark-gray font-semibold">
-                <Link href="/contact">Contribute to Housing Justice</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Building Phase Notice */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl">
-              Currently in Building Phase
-            </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-              We're actively building our Morii Community Center facility. Every contribution helps us move closer to
-              opening our doors and serving our community with these amazing programs and services.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="bg-white shadow-md">
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-primary mb-2">$25</div>
-                <p className="text-gray-600 text-sm">Funds community workshop materials for one session</p>
+              <CardContent className="p-6 flex-1 flex flex-col">
+                <p className="text-gray-600 mb-4 flex-1">
+                  Comprehensive career services including job training, resume building, interview preparation, and
+                  ongoing career counseling to help you achieve your professional goals.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Job placement assistance
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Skills training workshops
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Professional networking
+                  </li>
+                </ul>
+                <Button asChild className="w-full mt-auto">
+                  <Link href="/programs/career-development">Learn More</Link>
+                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-md">
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-secondary mb-2">$100</div>
-                <p className="text-gray-600 text-sm">Supports equipment for our recording studio</p>
+            {/* Health Education Card */}
+            <Card className="overflow-hidden h-full flex flex-col">
+              <div className="relative h-64">
+                <Image src="/health-education.png" alt="Health Education Program" fill className="object-cover" />
+                <div className="absolute inset-0 bg-black/40 flex items-end">
+                  <div className="p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">Health Education</h3>
+                    <p className="text-white/90">Promoting wellness through education and resources</p>
+                  </div>
+                </div>
+              </div>
+              <CardContent className="p-6 flex-1 flex flex-col">
+                <p className="text-gray-600 mb-4 flex-1">
+                  Comprehensive health and wellness programs including fitness classes, nutrition education, mental
+                  health support, and preventive care services.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Fitness and yoga classes
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Mental health counseling
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Health screenings
+                  </li>
+                </ul>
+                <Button asChild className="w-full mt-auto">
+                  <Link href="/programs/health-wellness">Learn More</Link>
+                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-md">
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-accent mb-2">$500</div>
-                <p className="text-gray-600 text-sm">Sponsors a month of programming for community members</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md">
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-green mb-2">$1,000</div>
-                <p className="text-gray-600 text-sm">Helps build essential facility infrastructure</p>
+            {/* Community Events Card */}
+            <Card className="overflow-hidden h-full flex flex-col">
+              <div className="relative h-64">
+                <Image src="/community-events.png" alt="Community Events" fill className="object-cover" />
+                <div className="absolute inset-0 bg-black/40 flex items-end">
+                  <div className="p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">Community Events</h3>
+                    <p className="text-white/90">Bringing people together to celebrate and connect</p>
+                  </div>
+                </div>
+              </div>
+              <CardContent className="p-6 flex-1 flex flex-col">
+                <p className="text-gray-600 mb-4 flex-1">
+                  Regular community events, celebrations, and gatherings that bring neighbors together and strengthen
+                  our community bonds through shared experiences.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Monthly community celebrations
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Cultural festivals and events
+                  </li>
+                  <li className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                    Networking opportunities
+                  </li>
+                </ul>
+                <Button asChild className="w-full mt-auto">
+                  <Link href="/events">Learn More</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
 
-          <div className="text-center mt-12">
-            <Button asChild className="bg-accent hover:bg-accent/90 text-white font-semibold">
-              <Link href="/contact">Contribute to This Mission</Link>
+          <div className="text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link href="/programs/register">
+                View All Programs
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-dark-gray">
+      {/* All Programs Grid */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Get Involved?</h2>
-            <p className="mt-6 text-lg">
-              Whether you want to support our mission, volunteer your time, or join our community, we'd love to hear
-              from you.
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">All Programs</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Explore our complete range of programs and services
             </p>
-            <div className="mt-10">
-              <Button asChild size="lg" className="bg-dark-gray hover:bg-dark-gray/90 text-white font-semibold">
-                <Link href="/contact">Contribute to This Mission</Link>
-              </Button>
-            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Youth Programs */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-dark-gray" />
+                </div>
+                <CardTitle className="text-dark-gray">Youth Programs</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  After-school programs, summer camps, mentorship, and leadership development for young people.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Ages 6-18
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Main Center & Satellite Locations
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/programs/youth">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Adult Education */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-secondary rounded-lg flex items-center justify-center mb-4">
+                  <BookOpen className="h-6 w-6 text-dark-gray" />
+                </div>
+                <CardTitle className="text-dark-gray">Adult Education</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  GED preparation, ESL classes, computer literacy, and continuing education opportunities.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Evening & Weekend Classes
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Education Center
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/programs/adult-education">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Senior Services */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-accent rounded-lg flex items-center justify-center mb-4">
+                  <Heart className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-dark-gray">Senior Services</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Social activities, health screenings, transportation assistance, and support services for seniors.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Daily Programs Available
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Senior Center Wing
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/programs/senior-services">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Family Support */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-dark-gray" />
+                </div>
+                <CardTitle className="text-dark-gray">Family Support</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Parenting classes, childcare assistance, family counseling, and emergency support services.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Flexible Scheduling
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Family Resource Center
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/programs/family-support">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Housing Assistance */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-secondary rounded-lg flex items-center justify-center mb-4">
+                  <MapPin className="h-6 w-6 text-dark-gray" />
+                </div>
+                <CardTitle className="text-dark-gray">Housing Assistance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Housing search assistance, cooperative housing education, and homeownership preparation.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  By Appointment
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Housing Resource Office
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/housing">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Arts & Culture */}
+            <Card className="h-full">
+              <CardHeader>
+                <div className="h-12 w-12 bg-accent rounded-lg flex items-center justify-center mb-4">
+                  <BookOpen className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-dark-gray">Arts & Culture</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Art classes, music programs, cultural events, and creative workshops for all ages.
+                </p>
+                <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Various Times
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Arts Studio & Gallery
+                </div>
+                <Button asChild variant="outline" className="w-full bg-transparent">
+                  <Link href="/programs/arts-culture">Learn More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Program Registration CTA */}
+      <section className="py-16 bg-primary text-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+          <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+            Join our programs and become part of a community that supports your growth and success.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100 text-lg px-8 py-3">
+              <Link href="/programs/register">
+                Register for Programs
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-3 bg-transparent"
+            >
+              <Link href="/contact">Contact Us</Link>
+            </Button>
           </div>
         </div>
       </section>

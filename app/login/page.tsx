@@ -3,13 +3,14 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, User, Lock, Info } from "lucide-react"
+import { supabase } from "@/lib/supabase"
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -18,16 +19,29 @@ export default function LoginPage() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
+  const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
 
-  // Check if user is already logged in
   useEffect(() => {
-    const user = localStorage.getItem("user")
-    if (user) {
-      router.push("/dashboard")
+    // Check if user is already logged in
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (user) {
+        router.push("/dashboard")
+      }
     }
-  }, [router])
+    checkUser()
+
+    // Check for messages from URL params
+    const urlMessage = searchParams.get("message")
+    if (urlMessage) {
+      setMessage(urlMessage)
+    }
+  }, [router, searchParams])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -44,36 +58,44 @@ export default function LoginPage() {
     setIsLoading(true)
     setError("")
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      })
 
-    // Test credentials
-    if (formData.email === "admin@work.capturefantasy.com" && formData.password === "admin") {
-      // Store user data in localStorage (in a real app, use secure tokens)
-      const userData = {
-        id: 1,
-        name: "Admin User",
-        email: "admin@work.capturefantasy.com",
-        role: "admin",
-        loginTime: new Date().toISOString(),
+      if (signInError) throw signInError
+
+      if (data.user) {
+        // Store user data in localStorage for compatibility with existing dashboard
+        const userData = {
+          id: data.user.id,
+          name:
+            `${data.user.user_metadata.first_name || ""} ${data.user.user_metadata.last_name || ""}`.trim() ||
+            data.user.email,
+          email: data.user.email,
+          role: data.user.user_metadata.role || "member",
+          loginTime: new Date().toISOString(),
+        }
+
+        localStorage.setItem("user", JSON.stringify(userData))
+        localStorage.setItem("isLoggedIn", "true")
+
+        // Redirect to dashboard
+        router.push("/dashboard")
       }
-
-      localStorage.setItem("user", JSON.stringify(userData))
-      localStorage.setItem("isLoggedIn", "true")
-
-      // Redirect to dashboard
-      router.push("/dashboard")
-    } else {
-      setError("Invalid email or password. Please check your credentials and try again.")
+    } catch (err: any) {
+      console.error("Login error:", err)
+      setError(err.message || "Login failed. Please check your credentials and try again.")
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   const fillTestCredentials = () => {
     setFormData({
       email: "admin@work.capturefantasy.com",
-      password: "admin",
+      password: "admin123456",
     })
   }
 
@@ -93,7 +115,7 @@ export default function LoginPage() {
             <br />
             Email: admin@work.capturefantasy.com
             <br />
-            Password: admin
+            Password: admin123456
             <br />
             <Button
               variant="link"
@@ -114,6 +136,12 @@ export default function LoginPage() {
               {error && (
                 <Alert className="border-red-200 bg-red-50">
                   <AlertDescription className="text-red-800">{error}</AlertDescription>
+                </Alert>
+              )}
+
+              {message && (
+                <Alert className="border-green-200 bg-green-50">
+                  <AlertDescription className="text-green-800">{message}</AlertDescription>
                 </Alert>
               )}
 

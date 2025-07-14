@@ -1,5 +1,11 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -7,8 +13,137 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { DatabaseService } from "@/lib/database-service"
+import { supabase } from "@/lib/supabase"
 
 export default function RegisterPage() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    state: "NC",
+    zipCode: "",
+    householdSize: "",
+    children: "",
+    incomeRange: "",
+    membershipLevel: "",
+    goals: "",
+    referral: "",
+    password: "",
+    confirmPassword: "",
+    interests: [] as string[],
+    terms: false,
+    newsletter: false,
+    emergencyContact: false,
+  })
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const router = useRouter()
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData((prev) => ({ ...prev, [name]: checked }))
+  }
+
+  const handleInterestChange = (interest: string, checked: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      interests: checked ? [...prev.interests, interest] : prev.interests.filter((i) => i !== interest),
+    }))
+  }
+
+  const validateForm = () => {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+      setError("Please fill in all required fields")
+      return false
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match")
+      return false
+    }
+
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long")
+      return false
+    }
+
+    if (!formData.terms) {
+      setError("You must agree to the terms and conditions")
+      return false
+    }
+
+    return true
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setSuccess("")
+
+    if (!validateForm()) return
+
+    setIsLoading(true)
+
+    try {
+      // Create Supabase auth user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+          },
+        },
+      })
+
+      if (authError) throw authError
+
+      // Create member record in database
+      const memberData = {
+        email: formData.email,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone || undefined,
+        address: formData.address
+          ? `${formData.address}, ${formData.city}, ${formData.state} ${formData.zipCode}`
+          : undefined,
+        membership_type: formData.membershipLevel as "basic" | "premium" | "family",
+        membership_status: "pending" as const,
+      }
+
+      await DatabaseService.createMember(memberData)
+
+      setSuccess("Registration successful! Please check your email to verify your account.")
+
+      // Redirect to login after 3 seconds
+      setTimeout(() => {
+        router.push("/login?message=Please check your email to verify your account")
+      }, 3000)
+    } catch (err: any) {
+      console.error("Registration error:", err)
+      setError(err.message || "Registration failed. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
@@ -31,7 +166,19 @@ export default function RegisterPage() {
             <CardTitle className="text-xl text-dark-gray">Create Your Community Account</CardTitle>
           </CardHeader>
           <CardContent>
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <Alert className="border-red-200 bg-red-50">
+                  <AlertDescription className="text-red-800">{error}</AlertDescription>
+                </Alert>
+              )}
+
+              {success && (
+                <Alert className="border-green-200 bg-green-50">
+                  <AlertDescription className="text-green-800">{success}</AlertDescription>
+                </Alert>
+              )}
+
               {/* Personal Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-dark-gray border-b border-gray-200 pb-2">
@@ -43,13 +190,27 @@ export default function RegisterPage() {
                     <Label htmlFor="firstName" className="text-dark-gray">
                       First Name *
                     </Label>
-                    <Input id="firstName" name="firstName" required className="mt-1" />
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                      className="mt-1"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="lastName" className="text-dark-gray">
                       Last Name *
                     </Label>
-                    <Input id="lastName" name="lastName" required className="mt-1" />
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                      className="mt-1"
+                    />
                   </div>
                 </div>
 
@@ -57,7 +218,15 @@ export default function RegisterPage() {
                   <Label htmlFor="email" className="text-dark-gray">
                     Email Address *
                   </Label>
-                  <Input id="email" name="email" type="email" required className="mt-1" />
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="mt-1"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -65,13 +234,27 @@ export default function RegisterPage() {
                     <Label htmlFor="phone" className="text-dark-gray">
                       Phone Number
                     </Label>
-                    <Input id="phone" name="phone" type="tel" className="mt-1" />
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="birthDate" className="text-dark-gray">
                       Date of Birth
                     </Label>
-                    <Input id="birthDate" name="birthDate" type="date" className="mt-1" />
+                    <Input
+                      id="birthDate"
+                      name="birthDate"
+                      type="date"
+                      value={formData.birthDate}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
                   </div>
                 </div>
 
@@ -79,7 +262,14 @@ export default function RegisterPage() {
                   <Label htmlFor="address" className="text-dark-gray">
                     Address
                   </Label>
-                  <Input id="address" name="address" className="mt-1" placeholder="Street address" />
+                  <Input
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    className="mt-1"
+                    placeholder="Street address"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -87,19 +277,31 @@ export default function RegisterPage() {
                     <Label htmlFor="city" className="text-dark-gray">
                       City
                     </Label>
-                    <Input id="city" name="city" className="mt-1" />
+                    <Input id="city" name="city" value={formData.city} onChange={handleInputChange} className="mt-1" />
                   </div>
                   <div>
                     <Label htmlFor="state" className="text-dark-gray">
                       State
                     </Label>
-                    <Input id="state" name="state" className="mt-1" defaultValue="NC" />
+                    <Input
+                      id="state"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="zipCode" className="text-dark-gray">
                       ZIP Code
                     </Label>
-                    <Input id="zipCode" name="zipCode" className="mt-1" />
+                    <Input
+                      id="zipCode"
+                      name="zipCode"
+                      value={formData.zipCode}
+                      onChange={handleInputChange}
+                      className="mt-1"
+                    />
                   </div>
                 </div>
               </div>
@@ -115,7 +317,10 @@ export default function RegisterPage() {
                     <Label htmlFor="householdSize" className="text-dark-gray">
                       Household Size
                     </Label>
-                    <Select name="householdSize">
+                    <Select
+                      value={formData.householdSize}
+                      onValueChange={(value) => handleSelectChange("householdSize", value)}
+                    >
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select household size" />
                       </SelectTrigger>
@@ -133,7 +338,7 @@ export default function RegisterPage() {
                     <Label htmlFor="children" className="text-dark-gray">
                       Number of Children (under 18)
                     </Label>
-                    <Select name="children">
+                    <Select value={formData.children} onValueChange={(value) => handleSelectChange("children", value)}>
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select number" />
                       </SelectTrigger>
@@ -152,7 +357,10 @@ export default function RegisterPage() {
                   <Label htmlFor="incomeRange" className="text-dark-gray">
                     Annual Household Income (optional)
                   </Label>
-                  <Select name="incomeRange">
+                  <Select
+                    value={formData.incomeRange}
+                    onValueChange={(value) => handleSelectChange("incomeRange", value)}
+                  >
                     <SelectTrigger className="mt-1">
                       <SelectValue placeholder="Select income range" />
                     </SelectTrigger>
@@ -178,9 +386,22 @@ export default function RegisterPage() {
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border border-gray-200 rounded-lg p-4 hover:border-primary cursor-pointer">
+                  <div
+                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                      formData.membershipLevel === "basic"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-primary"
+                    }`}
+                  >
                     <div className="flex items-center mb-2">
-                      <input type="radio" name="membershipLevel" value="community-supporter" className="mr-3" />
+                      <input
+                        type="radio"
+                        name="membershipLevel"
+                        value="basic"
+                        checked={formData.membershipLevel === "basic"}
+                        onChange={(e) => handleSelectChange("membershipLevel", e.target.value)}
+                        className="mr-3"
+                      />
                       <div>
                         <h4 className="font-semibold text-dark-gray">Community Supporter</h4>
                         <p className="text-primary font-bold">$25/month</p>
@@ -194,9 +415,22 @@ export default function RegisterPage() {
                     </ul>
                   </div>
 
-                  <div className="border border-gray-200 rounded-lg p-4 hover:border-primary cursor-pointer">
+                  <div
+                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                      formData.membershipLevel === "premium"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-primary"
+                    }`}
+                  >
                     <div className="flex items-center mb-2">
-                      <input type="radio" name="membershipLevel" value="full-member" className="mr-3" />
+                      <input
+                        type="radio"
+                        name="membershipLevel"
+                        value="premium"
+                        checked={formData.membershipLevel === "premium"}
+                        onChange={(e) => handleSelectChange("membershipLevel", e.target.value)}
+                        className="mr-3"
+                      />
                       <div>
                         <h4 className="font-semibold text-dark-gray">Full Member</h4>
                         <p className="text-primary font-bold">$50/month</p>
@@ -210,9 +444,22 @@ export default function RegisterPage() {
                     </ul>
                   </div>
 
-                  <div className="border border-gray-200 rounded-lg p-4 hover:border-primary cursor-pointer">
+                  <div
+                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                      formData.membershipLevel === "family"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-primary"
+                    }`}
+                  >
                     <div className="flex items-center mb-2">
-                      <input type="radio" name="membershipLevel" value="family-membership" className="mr-3" />
+                      <input
+                        type="radio"
+                        name="membershipLevel"
+                        value="family"
+                        checked={formData.membershipLevel === "family"}
+                        onChange={(e) => handleSelectChange("membershipLevel", e.target.value)}
+                        className="mr-3"
+                      />
                       <div>
                         <h4 className="font-semibold text-dark-gray">Family Membership</h4>
                         <p className="text-primary font-bold">$75/month</p>
@@ -226,9 +473,22 @@ export default function RegisterPage() {
                     </ul>
                   </div>
 
-                  <div className="border border-gray-200 rounded-lg p-4 hover:border-primary cursor-pointer">
+                  <div
+                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                      formData.membershipLevel === "sliding-scale"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-primary"
+                    }`}
+                  >
                     <div className="flex items-center mb-2">
-                      <input type="radio" name="membershipLevel" value="sliding-scale" className="mr-3" />
+                      <input
+                        type="radio"
+                        name="membershipLevel"
+                        value="sliding-scale"
+                        checked={formData.membershipLevel === "sliding-scale"}
+                        onChange={(e) => handleSelectChange("membershipLevel", e.target.value)}
+                        className="mr-3"
+                      />
                       <div>
                         <h4 className="font-semibold text-dark-gray">Sliding Scale</h4>
                         <p className="text-primary font-bold">Based on income</p>
@@ -251,54 +511,27 @@ export default function RegisterPage() {
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="flex items-center">
-                    <Checkbox id="career-development" />
-                    <Label htmlFor="career-development" className="ml-2">
-                      Career Development
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="housing-cooperative" />
-                    <Label htmlFor="housing-cooperative" className="ml-2">
-                      Housing Cooperatives
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="financial-literacy" />
-                    <Label htmlFor="financial-literacy" className="ml-2">
-                      Financial Literacy
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="health-wellness" />
-                    <Label htmlFor="health-wellness" className="ml-2">
-                      Health & Wellness
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="adult-education" />
-                    <Label htmlFor="adult-education" className="ml-2">
-                      Adult Education
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="youth-programs" />
-                    <Label htmlFor="youth-programs" className="ml-2">
-                      Youth Programs
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="community-organizing" />
-                    <Label htmlFor="community-organizing" className="ml-2">
-                      Community Organizing
-                    </Label>
-                  </div>
-                  <div className="flex items-center">
-                    <Checkbox id="volunteer-opportunities" />
-                    <Label htmlFor="volunteer-opportunities" className="ml-2">
-                      Volunteer Opportunities
-                    </Label>
-                  </div>
+                  {[
+                    "Career Development",
+                    "Housing Cooperatives",
+                    "Financial Literacy",
+                    "Health & Wellness",
+                    "Adult Education",
+                    "Youth Programs",
+                    "Community Organizing",
+                    "Volunteer Opportunities",
+                  ].map((interest) => (
+                    <div key={interest} className="flex items-center">
+                      <Checkbox
+                        id={interest.toLowerCase().replace(/\s+/g, "-")}
+                        checked={formData.interests.includes(interest)}
+                        onCheckedChange={(checked) => handleInterestChange(interest, checked as boolean)}
+                      />
+                      <Label htmlFor={interest.toLowerCase().replace(/\s+/g, "-")} className="ml-2">
+                        {interest}
+                      </Label>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -315,6 +548,8 @@ export default function RegisterPage() {
                   <Textarea
                     id="goals"
                     name="goals"
+                    value={formData.goals}
+                    onChange={handleInputChange}
                     className="mt-1"
                     rows={3}
                     placeholder="Share what you hope to achieve or contribute..."
@@ -325,7 +560,7 @@ export default function RegisterPage() {
                   <Label htmlFor="referral" className="text-dark-gray">
                     How did you hear about us? (optional)
                   </Label>
-                  <Select name="referral">
+                  <Select value={formData.referral} onValueChange={(value) => handleSelectChange("referral", value)}>
                     <SelectTrigger className="mt-1">
                       <SelectValue placeholder="Select how you found us" />
                     </SelectTrigger>
@@ -350,7 +585,15 @@ export default function RegisterPage() {
                   <Label htmlFor="password" className="text-dark-gray">
                     Password *
                   </Label>
-                  <Input id="password" name="password" type="password" required className="mt-1" />
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    className="mt-1"
+                  />
                   <p className="text-sm text-gray-500 mt-1">Must be at least 8 characters with letters and numbers</p>
                 </div>
 
@@ -358,14 +601,28 @@ export default function RegisterPage() {
                   <Label htmlFor="confirmPassword" className="text-dark-gray">
                     Confirm Password *
                   </Label>
-                  <Input id="confirmPassword" name="confirmPassword" type="password" required className="mt-1" />
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                    className="mt-1"
+                  />
                 </div>
               </div>
 
               {/* Agreements */}
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <Checkbox id="terms" required className="mt-1" />
+                  <Checkbox
+                    id="terms"
+                    checked={formData.terms}
+                    onCheckedChange={(checked) => handleCheckboxChange("terms", checked as boolean)}
+                    required
+                    className="mt-1"
+                  />
                   <Label htmlFor="terms" className="ml-2 text-sm text-gray-600">
                     I agree to the{" "}
                     <Link href="/terms" className="text-accent hover:text-accent/80 underline">
@@ -380,14 +637,24 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <Checkbox id="newsletter" className="mt-1" />
+                  <Checkbox
+                    id="newsletter"
+                    checked={formData.newsletter}
+                    onCheckedChange={(checked) => handleCheckboxChange("newsletter", checked as boolean)}
+                    className="mt-1"
+                  />
                   <Label htmlFor="newsletter" className="ml-2 text-sm text-gray-600">
                     I would like to receive the community newsletter and updates about programs and events
                   </Label>
                 </div>
 
                 <div className="flex items-start">
-                  <Checkbox id="emergency-contact" className="mt-1" />
+                  <Checkbox
+                    id="emergency-contact"
+                    checked={formData.emergencyContact}
+                    onCheckedChange={(checked) => handleCheckboxChange("emergencyContact", checked as boolean)}
+                    className="mt-1"
+                  />
                   <Label htmlFor="emergency-contact" className="ml-2 text-sm text-gray-600">
                     I consent to being contacted in case of emergency or urgent community matters
                   </Label>
@@ -396,8 +663,12 @@ export default function RegisterPage() {
 
               {/* Submit Button */}
               <div className="pt-6">
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-dark-gray text-lg py-3">
-                  Join Our Community
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-primary hover:bg-primary/90 text-dark-gray text-lg py-3"
+                >
+                  {isLoading ? "Creating Account..." : "Join Our Community"}
                 </Button>
               </div>
             </form>
@@ -413,8 +684,8 @@ export default function RegisterPage() {
                 <span className="text-dark-gray text-sm font-bold">1</span>
               </div>
               <div>
-                <p className="font-medium text-dark-gray">Account Review</p>
-                <p className="text-sm text-gray-600">We'll review your application within 1-2 business days</p>
+                <p className="font-medium text-dark-gray">Email Verification</p>
+                <p className="text-sm text-gray-600">Check your email and click the verification link</p>
               </div>
             </div>
             <div className="flex items-start">
@@ -422,10 +693,8 @@ export default function RegisterPage() {
                 <span className="text-dark-gray text-sm font-bold">2</span>
               </div>
               <div>
-                <p className="font-medium text-dark-gray">Welcome Call</p>
-                <p className="text-sm text-gray-600">
-                  A community coordinator will call to welcome you and answer questions
-                </p>
+                <p className="font-medium text-dark-gray">Account Review</p>
+                <p className="text-sm text-gray-600">We'll review your application within 1-2 business days</p>
               </div>
             </div>
             <div className="flex items-start">
@@ -433,8 +702,10 @@ export default function RegisterPage() {
                 <span className="text-white text-sm font-bold">3</span>
               </div>
               <div>
-                <p className="font-medium text-dark-gray">Orientation Invitation</p>
-                <p className="text-sm text-gray-600">You'll be invited to our next new member orientation</p>
+                <p className="font-medium text-dark-gray">Welcome Call</p>
+                <p className="text-sm text-gray-600">
+                  A community coordinator will call to welcome you and answer questions
+                </p>
               </div>
             </div>
           </div>
