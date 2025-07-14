@@ -3,23 +3,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Heart, Mic, Users, Home } from "lucide-react"
-import { strapi, getStrapiImageUrl, fallbackData } from "@/lib/strapi"
 
-export default async function ProgramsPage() {
-  let programs = fallbackData.programs
-
-  try {
-    const isHealthy = await strapi.isHealthy()
-    if (isHealthy) {
-      const strapiPrograms = await strapi.getPrograms()
-      if (strapiPrograms.length > 0) {
-        programs = strapiPrograms
-      }
-    }
-  } catch (error) {
-    console.warn("Using fallback programs data:", error)
-  }
-
+export default function ProgramsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -41,75 +26,20 @@ export default async function ProgramsPage() {
         </div>
       </section>
 
-      {/* Programs Grid */}
-      {programs.length > 0 && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl">Our Programs</h2>
-              <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-                Explore our comprehensive programs designed to empower and support our community members.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {programs.map((program) => (
-                <Card
-                  key={program.id}
-                  className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="relative h-48 overflow-hidden rounded-t-lg">
-                    <Image
-                      src={getStrapiImageUrl(program.image) || "/placeholder.svg"}
-                      alt={program.title}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-accent text-white px-2 py-1 rounded text-sm font-semibold">
-                        {program.category}
-                      </span>
-                    </div>
-                    {program.price > 0 && (
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-white/90 text-dark-gray px-2 py-1 rounded text-sm font-semibold">
-                          ${program.price}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-dark-gray mb-2">{program.title}</h3>
-                    <p className="text-gray-600 mb-4 text-sm">{program.description}</p>
-
-                    <div className="space-y-2 mb-4 text-sm text-gray-600">
-                      <div className="flex justify-between">
-                        <span>Schedule:</span>
-                        <span>{program.schedule}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Duration:</span>
-                        <span>{program.duration}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Capacity:</span>
-                        <span>
-                          {program.enrolled}/{program.capacity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white">
-                      <Link href={`/programs/${program.slug}`}>Learn More</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+      {/* Programs Overview */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl">
+              Empowering Through Community & Creativity
+            </h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              Our programs are designed to provide practical support while nurturing creative expression and building
+              community connections.
+            </p>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Community Support Services */}
       <section id="community-support" className="py-16 bg-gray-50">
