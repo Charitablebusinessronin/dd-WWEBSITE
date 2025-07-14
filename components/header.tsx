@@ -3,312 +3,243 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, ChevronDown, User, LogOut } from "lucide-react"
+import { Menu, X, ChevronDown, User, LogOut, Settings } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userName, setUserName] = useState("")
-  const router = useRouter()
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
 
   useEffect(() => {
-    // Check login status on component mount
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true"
-    const name = localStorage.getItem("userName") || ""
-    setIsLoggedIn(loggedIn)
-    setUserName(name)
+    // Check if user is logged in
+    const userData = localStorage.getItem("user")
+    if (userData) {
+      setUser(JSON.parse(userData))
+      setIsLoggedIn(true)
+    }
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn")
-    localStorage.removeItem("userEmail")
-    localStorage.removeItem("userName")
+    localStorage.removeItem("user")
+    setUser(null)
     setIsLoggedIn(false)
-    setUserName("")
-    router.push("/")
+    window.location.href = "/"
   }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const handleDropdownToggle = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown)
-  }
-
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo and Brand */}
           <Link href="/" className="flex items-center space-x-3">
-            <Image src="/dd-logo.png" alt="Difference Driven Logo" width={50} height={50} className="w-12 h-12" />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-teal-600 font-montserrat">Difference Driven</h1>
-              <p className="text-sm text-gray-600">Community Center</p>
+            <Image src="/dd-logo.png" alt="Difference Driven Logo" width={50} height={50} className="h-12 w-12" />
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-dark-gray font-montserrat">Difference Driven</span>
+              <span className="text-sm text-accent font-medium -mt-1">Morii Community Center</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {/* Our Community Dropdown */}
-            <div className="relative group">
-              <button
-                className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
-                onMouseEnter={() => setActiveDropdown("community")}
-              >
-                <span>OUR COMMUNITY</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div
-                className={`absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
-                  activeDropdown === "community" ? "opacity-100 visible" : "opacity-0 invisible"
-                }`}
-                onMouseEnter={() => setActiveDropdown("community")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="py-2">
-                  <Link
-                    href="/about"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-dark-gray hover:text-accent transition-colors font-medium">
+                <span>Community</span>
+                <ChevronDown className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white border shadow-lg">
+                <DropdownMenuItem asChild>
+                  <Link href="/about" className="text-dark-gray hover:text-accent">
                     About Us
                   </Link>
-                  <Link
-                    href="/programs"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Programs & Services
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/programs" className="text-dark-gray hover:text-accent">
+                    Programs
                   </Link>
-                  <Link
-                    href="/housing-cooperatives"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/events" className="text-dark-gray hover:text-accent">
+                    Events
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/stories" className="text-dark-gray hover:text-accent">
+                    Stories
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-dark-gray hover:text-accent transition-colors font-medium">
+                <span>Housing</span>
+                <ChevronDown className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white border shadow-lg">
+                <DropdownMenuItem asChild>
+                  <Link href="/housing-cooperatives" className="text-dark-gray hover:text-accent">
                     Housing Cooperatives
                   </Link>
-                  <Link
-                    href="/events/career-fair"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Upcoming Events
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/housing-cooperatives/data" className="text-dark-gray hover:text-accent">
+                    Housing Data
                   </Link>
-                  <Link
-                    href="/stories"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Community Stories
-                  </Link>
-                </div>
-              </div>
-            </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            {/* Membership Dropdown */}
-            <div className="relative group">
-              <button
-                className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
-                onMouseEnter={() => setActiveDropdown("membership")}
-              >
-                <span>MEMBERSHIP</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div
-                className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
-                  activeDropdown === "membership" ? "opacity-100 visible" : "opacity-0 invisible"
-                }`}
-                onMouseEnter={() => setActiveDropdown("membership")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="py-2">
-                  <Link
-                    href="/membership"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Join Our Community
-                  </Link>
-                  <Link
-                    href="/get-involved"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Get Involved
-                  </Link>
-                  <Link
-                    href="/programs/register"
-                    className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                  >
-                    Program Registration
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Conditional Account/User Dropdown */}
-            {isLoggedIn ? (
-              <div className="relative group">
-                <button
-                  className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
-                  onMouseEnter={() => setActiveDropdown("user")}
-                >
-                  <User className="w-4 h-4" />
-                  <span>{userName}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
-                    activeDropdown === "user" ? "opacity-100 visible" : "opacity-0 invisible"
-                  }`}
-                  onMouseEnter={() => setActiveDropdown("user")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <div className="py-2">
-                    <Link
-                      href="/dashboard"
-                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                    >
-                      My Dashboard
-                    </Link>
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                    >
-                      My Profile
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="relative group">
-                <button
-                  className="flex items-center space-x-1 text-gray-700 hover:text-teal-600 font-medium transition-colors"
-                  onMouseEnter={() => setActiveDropdown("account")}
-                >
-                  <span>MY DD ACCOUNT</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50 transition-all duration-200 ${
-                    activeDropdown === "account" ? "opacity-100 visible" : "opacity-0 invisible"
-                  }`}
-                  onMouseEnter={() => setActiveDropdown("account")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <div className="py-2">
-                    <Link
-                      href="/login"
-                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                    >
-                      Create Account
-                    </Link>
-                    <Link
-                      href="/forgot-password"
-                      className="block px-4 py-2 text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
-                    >
-                      Reset Password
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
+            <Link href="/membership" className="text-dark-gray hover:text-accent transition-colors font-medium">
+              Membership
+            </Link>
+            <Link href="/get-involved" className="text-dark-gray hover:text-accent transition-colors font-medium">
+              Get Involved
+            </Link>
+            <Link href="/contact" className="text-dark-gray hover:text-accent transition-colors font-medium">
+              Contact
+            </Link>
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Link href="/contact">
-              <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-2 rounded-full transition-colors">
-                DONATE TODAY
-              </Button>
-            </Link>
+          {/* Auth Section */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {isLoggedIn && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center space-x-2 text-dark-gray hover:text-accent transition-colors">
+                  <User className="h-5 w-5" />
+                  <span className="font-medium">{user.name.split(" ")[0]}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white border shadow-lg">
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="flex items-center space-x-2 text-dark-gray hover:text-accent">
+                      <Settings className="h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 text-red-600 hover:text-red-700"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-accent text-accent hover:bg-accent hover:text-white bg-transparent"
+                >
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild className="bg-accent hover:bg-accent/90 text-white">
+                  <Link href="/register">Join Us</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded-md text-gray-700 hover:text-teal-600 hover:bg-gray-100 transition-colors"
             onClick={toggleMenu}
+            className="lg:hidden p-2 text-dark-gray hover:text-accent transition-colors"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 py-4 space-y-4">
-            <Link
-              href="/about"
-              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/programs"
-              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Programs & Services
-            </Link>
-            <Link
-              href="/programs/register"
-              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Program Registration
-            </Link>
-            <Link
-              href="/membership"
-              className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Membership
-            </Link>
-            {isLoggedIn ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  My Dashboard
+          <div className="lg:hidden py-4 border-t border-gray-200">
+            <nav className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-2">
+                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Community</span>
+                <Link href="/about" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  About Us
                 </Link>
-                <button
-                  onClick={() => {
-                    handleLogout()
-                    setIsMenuOpen(false)
-                  }}
-                  className="block w-full text-left px-4 py-2 text-gray-700 hover:text-red-600 transition-colors"
+                <Link href="/programs" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Programs
+                </Link>
+                <Link href="/events" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Events
+                </Link>
+                <Link href="/stories" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Stories
+                </Link>
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Housing</span>
+                <Link href="/housing-cooperatives" className="pl-4 text-dark-gray hover:text-accent transition-colors">
+                  Housing Cooperatives
+                </Link>
+                <Link
+                  href="/housing-cooperatives/data"
+                  className="pl-4 text-dark-gray hover:text-accent transition-colors"
                 >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <Link
-                href="/login"
-                className="block px-4 py-2 text-gray-700 hover:text-teal-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Login
+                  Housing Data
+                </Link>
+              </div>
+
+              <Link href="/membership" className="text-dark-gray hover:text-accent transition-colors font-medium">
+                Membership
               </Link>
-            )}
-            <Link href="/contact" className="block px-4 py-2" onClick={() => setIsMenuOpen(false)}>
-              <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded-full">
-                DONATE TODAY
-              </Button>
-            </Link>
+              <Link href="/get-involved" className="text-dark-gray hover:text-accent transition-colors font-medium">
+                Get Involved
+              </Link>
+              <Link href="/contact" className="text-dark-gray hover:text-accent transition-colors font-medium">
+                Contact
+              </Link>
+
+              <div className="pt-4 border-t border-gray-200">
+                {isLoggedIn && user ? (
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex items-center space-x-2 text-dark-gray">
+                      <User className="h-5 w-5" />
+                      <span className="font-medium">{user.name}</span>
+                    </div>
+                    <Link href="/dashboard" className="pl-7 text-dark-gray hover:text-accent transition-colors">
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="pl-7 text-left text-red-600 hover:text-red-700 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-2">
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-accent text-accent hover:bg-accent hover:text-white bg-transparent"
+                    >
+                      <Link href="/login">Login</Link>
+                    </Button>
+                    <Button asChild className="bg-accent hover:bg-accent/90 text-white">
+                      <Link href="/register">Join Us</Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </nav>
           </div>
         )}
       </div>

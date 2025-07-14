@@ -1,220 +1,256 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import {
-  User,
-  Calendar,
-  BookOpen,
-  Users,
-  Home,
-  Heart,
-  Award,
-  Bell,
-  Settings,
-  MessageCircle,
-  FileText,
-  CreditCard,
-  MapPin,
-} from "lucide-react"
+import { Calendar, Clock, Users, BookOpen, Award, Bell, Settings, TrendingUp } from "lucide-react"
+
+interface Program {
+  id: number
+  title: string
+  status: "enrolled" | "completed" | "upcoming"
+  progress: number
+  nextSession: string
+  image: string
+}
 
 export default function DashboardPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userName, setUserName] = useState("")
-  const [userEmail, setUserEmail] = useState("")
+  const [user, setUser] = useState<any | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true"
-    const name = localStorage.getItem("userName") || ""
-    const email = localStorage.getItem("userEmail") || ""
+  // Mock user programs data
+  const [userPrograms] = useState<Program[]>([
+    {
+      id: 1,
+      title: "Career Development Workshop",
+      status: "enrolled",
+      progress: 65,
+      nextSession: "Tuesday, Jan 16 at 6:00 PM",
+      image: "/career-development.png",
+    },
+    {
+      id: 2,
+      title: "Financial Literacy Bootcamp",
+      status: "completed",
+      progress: 100,
+      nextSession: "Completed Dec 15, 2024",
+      image: "/event-financial.png",
+    },
+    {
+      id: 3,
+      title: "Digital Skills Training",
+      status: "upcoming",
+      progress: 0,
+      nextSession: "Starts Feb 5, 2025",
+      image: "/community-workshop.png",
+    },
+  ])
 
-    if (!loggedIn) {
-      router.push("/login")
-      return
+  const [upcomingEvents] = useState([
+    {
+      id: 1,
+      title: "Community Health Fair",
+      date: "Jan 20, 2025",
+      time: "11:00 AM - 3:00 PM",
+      location: "Main Hall",
+    },
+    {
+      id: 2,
+      title: "Financial Planning Workshop",
+      date: "Jan 25, 2025",
+      time: "6:00 PM - 8:00 PM",
+      location: "Conference Room A",
+    },
+    {
+      id: 3,
+      title: "Youth Leadership Meeting",
+      date: "Jan 30, 2025",
+      time: "4:00 PM - 6:00 PM",
+      location: "Youth Center",
+    },
+  ])
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const userData = localStorage.getItem("user")
+      const loginStatus = localStorage.getItem("isLoggedIn")
+
+      if (userData && loginStatus === "true") {
+        setUser(JSON.parse(userData))
+        setIsLoading(false)
+      } else {
+        // Redirect to login if not authenticated
+        router.push("/login")
+      }
     }
 
-    setIsLoggedIn(loggedIn)
-    setUserName(name)
-    setUserEmail(email)
+    checkAuth()
   }, [router])
 
-  if (!isLoggedIn) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-dark-gray mb-4">Redirecting to login...</h1>
-          <p className="text-gray-600">Please wait while we redirect you to the login page.</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
     )
+  }
+
+  if (!user) {
+    return null // Will redirect to login
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "enrolled":
+        return "bg-blue-100 text-blue-800"
+      case "completed":
+        return "bg-green-100 text-green-800"
+      case "upcoming":
+        return "bg-yellow-100 text-yellow-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "enrolled":
+        return "In Progress"
+      case "completed":
+        return "Completed"
+      case "upcoming":
+        return "Upcoming"
+      default:
+        return status
+    }
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center">
-              <Image src="/dd-logo.png" alt="Difference Driven" width={40} height={40} className="mr-3" />
-              <div>
-                <h1 className="text-xl font-bold text-dark-gray">Welcome back, {userName}!</h1>
-                <p className="text-sm text-gray-600">Full Member since March 2023</p>
-              </div>
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-dark-gray">Welcome back, {user.name.split(" ")[0]}!</h1>
+              <p className="text-gray-600 mt-1">Here's what's happening in your community center journey</p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" className="bg-transparent">
-                <Bell className="h-4 w-4 mr-2" />
-                Notifications
-                <Badge variant="secondary" className="ml-2">
-                  3
-                </Badge>
+              <Button variant="outline" size="icon">
+                <Bell className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm" className="bg-transparent">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
+              <Button variant="outline" size="icon">
+                <Settings className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Profile Completion */}
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="h-12 w-12 bg-accent/20 rounded-full flex items-center justify-center">
+                      <BookOpen className="h-6 w-6 text-accent" />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold text-dark-gray">3</p>
+                      <p className="text-sm text-gray-600">Active Programs</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="h-12 w-12 bg-primary/20 rounded-full flex items-center justify-center">
+                      <Award className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold text-dark-gray">1</p>
+                      <p className="text-sm text-gray-600">Completed</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="h-12 w-12 bg-secondary/20 rounded-full flex items-center justify-center">
+                      <TrendingUp className="h-6 w-6 text-secondary" />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-2xl font-bold text-dark-gray">85%</p>
+                      <p className="text-sm text-gray-600">Avg Progress</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* My Programs */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <User className="h-5 w-5 mr-2 text-accent" />
-                  Complete Your Profile
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-bold text-dark-gray">My Programs</CardTitle>
+                  <Button asChild variant="outline">
+                    <Link href="/programs/register">Browse Programs</Link>
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Profile Completion</span>
-                    <span className="text-sm font-medium text-dark-gray">75%</span>
-                  </div>
-                  <Progress value={75} className="h-2" />
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="text-green-600 border-green-600">
-                      ✓ Basic Info
-                    </Badge>
-                    <Badge variant="outline" className="text-green-600 border-green-600">
-                      ✓ Contact Details
-                    </Badge>
-                    <Badge variant="outline" className="text-yellow-600 border-yellow-600">
-                      Emergency Contact
-                    </Badge>
-                    <Badge variant="outline" className="text-yellow-600 border-yellow-600">
-                      Program Interests
-                    </Badge>
-                  </div>
-                  <Button size="sm" className="bg-primary hover:bg-primary/90 text-dark-gray">
-                    Complete Profile
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  {userPrograms.map((program) => (
+                    <div key={program.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0">
+                        <Image
+                          src={program.image || "/placeholder.svg"}
+                          alt={program.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
 
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-dark-gray">Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Button asChild variant="outline" className="h-20 flex-col bg-transparent hover:bg-primary/10">
-                    <Link href="/programs/register">
-                      <BookOpen className="h-6 w-6 mb-2 text-accent" />
-                      <span className="text-sm">Register for Programs</span>
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="h-20 flex-col bg-transparent hover:bg-secondary/10">
-                    <Link href="/housing-cooperatives">
-                      <Home className="h-6 w-6 mb-2 text-secondary" />
-                      <span className="text-sm">Housing Info</span>
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="h-20 flex-col bg-transparent hover:bg-accent/10">
-                    <Link href="/events">
-                      <Calendar className="h-6 w-6 mb-2 text-accent" />
-                      <span className="text-sm">View Events</span>
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="h-20 flex-col bg-transparent hover:bg-green/10">
-                    <Link href="/get-involved">
-                      <Users className="h-6 w-6 mb-2 text-green" />
-                      <span className="text-sm">Get Involved</span>
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold text-dark-gray truncate">{program.title}</h3>
+                          <Badge className={getStatusColor(program.status)}>{getStatusText(program.status)}</Badge>
+                        </div>
 
-            {/* Upcoming Events & Activities */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <Calendar className="h-5 w-5 mr-2 text-accent" />
-                  Your Upcoming Activities
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4 p-4 bg-primary/10 rounded-lg">
-                    <div className="bg-primary rounded-lg p-2">
-                      <Calendar className="h-4 w-4 text-dark-gray" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-dark-gray">Career Fair</h4>
-                      <p className="text-sm text-gray-600">June 15, 2025 • 10:00 AM - 2:00 PM</p>
-                      <p className="text-sm text-gray-500">Main Community Hall</p>
-                      <Badge className="mt-2 bg-green text-white">Registered</Badge>
-                    </div>
-                  </div>
+                        {program.status === "enrolled" && (
+                          <div className="mb-2">
+                            <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+                              <span>Progress</span>
+                              <span>{program.progress}%</span>
+                            </div>
+                            <Progress value={program.progress} className="h-2" />
+                          </div>
+                        )}
 
-                  <div className="flex items-start space-x-4 p-4 bg-secondary/10 rounded-lg">
-                    <div className="bg-secondary rounded-lg p-2">
-                      <BookOpen className="h-4 w-4 text-dark-gray" />
+                        <p className="text-sm text-gray-600 flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
+                          {program.nextSession}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-dark-gray">Financial Literacy Workshop</h4>
-                      <p className="text-sm text-gray-600">June 22, 2025 • 6:00 PM - 8:00 PM</p>
-                      <p className="text-sm text-gray-500">Community Learning Center</p>
-                      <Button size="sm" variant="outline" className="mt-2 bg-transparent">
-                        Register Now
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-4 bg-accent/10 rounded-lg">
-                    <div className="bg-accent rounded-lg p-2">
-                      <Heart className="h-4 w-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-dark-gray">Community Health Fair</h4>
-                      <p className="text-sm text-gray-600">July 8, 2025 • 11:00 AM - 3:00 PM</p>
-                      <p className="text-sm text-gray-500">Main Hall & Outdoor Pavilion</p>
-                      <Button size="sm" variant="outline" className="mt-2 bg-transparent">
-                        Learn More
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 text-center">
-                  <Button asChild variant="outline" className="bg-transparent">
-                    <Link href="/events">View All Events</Link>
-                  </Button>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -222,27 +258,34 @@ export default function DashboardPage() {
             {/* Recent Activity */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <FileText className="h-5 w-5 mr-2 text-accent" />
-                  Recent Activity
-                </CardTitle>
+                <CardTitle className="text-xl font-bold text-dark-gray">Recent Activity</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-3 text-sm">
-                    <div className="h-2 w-2 bg-green rounded-full"></div>
-                    <span className="text-gray-600">Logged in to dashboard</span>
-                    <span className="text-gray-400">Just now</span>
+                  <div className="flex items-start space-x-3">
+                    <div className="h-2 w-2 bg-green-500 rounded-full mt-2"></div>
+                    <div>
+                      <p className="text-sm font-medium text-dark-gray">Completed Financial Literacy Bootcamp</p>
+                      <p className="text-xs text-gray-500">December 15, 2024</p>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-3 text-sm">
-                    <div className="h-2 w-2 bg-primary rounded-full"></div>
-                    <span className="text-gray-600">Account created successfully</span>
-                    <span className="text-gray-400">Today</span>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="h-2 w-2 bg-blue-500 rounded-full mt-2"></div>
+                    <div>
+                      <p className="text-sm font-medium text-dark-gray">
+                        Attended Career Development Workshop - Session 5
+                      </p>
+                      <p className="text-xs text-gray-500">January 9, 2025</p>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-3 text-sm">
-                    <div className="h-2 w-2 bg-secondary rounded-full"></div>
-                    <span className="text-gray-600">Profile setup initiated</span>
-                    <span className="text-gray-400">Today</span>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="h-2 w-2 bg-yellow-500 rounded-full mt-2"></div>
+                    <div>
+                      <p className="text-sm font-medium text-dark-gray">Registered for Digital Skills Training</p>
+                      <p className="text-xs text-gray-500">January 5, 2025</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -251,144 +294,84 @@ export default function DashboardPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Membership Status */}
+            {/* Profile Card */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <Award className="h-5 w-5 mr-2 text-primary" />
-                  Membership Status
-                </CardTitle>
+                <CardTitle className="text-lg font-bold text-dark-gray">Profile</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="h-20 w-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="h-10 w-10 text-white">User</div>
+                  </div>
+                  <h3 className="font-semibold text-dark-gray">{user.name}</h3>
+                  <p className="text-sm text-gray-600 mb-4">{user.email}</p>
+                  <Badge className="bg-primary/20 text-primary">
+                    {user.role === "admin" ? "Administrator" : "Member"}
+                  </Badge>
+                </div>
+                <div className="mt-6 space-y-2">
+                  <Button asChild variant="outline" className="w-full bg-transparent">
+                    <Link href="/profile">Edit Profile</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full bg-transparent">
+                    <Link href="/membership">Membership Info</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Upcoming Events */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-bold text-dark-gray">Upcoming Events</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="text-center">
-                    <Badge className="bg-primary text-dark-gray text-lg px-4 py-2">Full Member</Badge>
-                    <p className="text-sm text-gray-600 mt-2">Active since March 2023</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Next Payment</span>
-                      <span className="font-medium text-dark-gray">July 1, 2025</span>
+                  {upcomingEvents.map((event) => (
+                    <div key={event.id} className="border-l-4 border-accent pl-4">
+                      <h4 className="font-medium text-dark-gray text-sm">{event.title}</h4>
+                      <p className="text-xs text-gray-600 flex items-center mt-1">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {event.date}
+                      </p>
+                      <p className="text-xs text-gray-600 flex items-center">
+                        <Clock className="h-3 w-3 mr-1" />
+                        {event.time}
+                      </p>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Monthly Amount</span>
-                      <span className="font-medium text-dark-gray">$50.00</span>
-                    </div>
-                  </div>
-
-                  <Button size="sm" variant="outline" className="w-full bg-transparent">
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Manage Payment
-                  </Button>
+                  ))}
                 </div>
+                <Button asChild variant="outline" className="w-full mt-4 bg-transparent">
+                  <Link href="/community/events">View All Events</Link>
+                </Button>
               </CardContent>
             </Card>
 
-            {/* Housing Cooperative Status */}
+            {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <Home className="h-5 w-5 mr-2 text-secondary" />
-                  Housing Status
-                </CardTitle>
+                <CardTitle className="text-lg font-bold text-dark-gray">Quick Actions</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <Badge className="bg-secondary text-dark-gray">Sunrise Cooperative</Badge>
-                    <p className="text-sm text-gray-600 mt-2">Unit 15B • Resident since 2020</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Monthly Payment</span>
-                      <span className="font-medium text-dark-gray">$1,050</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Next Meeting</span>
-                      <span className="font-medium text-dark-gray">June 20</span>
-                    </div>
-                  </div>
-
-                  <Button size="sm" variant="outline" className="w-full bg-transparent">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Cooperative Portal
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Community Achievements */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <Award className="h-5 w-5 mr-2 text-accent" />
-                  Your Achievements
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 bg-primary/20 rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-dark-gray">New Member</p>
-                      <p className="text-xs text-gray-500">Welcome to the community!</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 bg-secondary/20 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-4 w-4 text-secondary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-dark-gray">Profile Started</p>
-                      <p className="text-xs text-gray-500">Complete your profile</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 bg-accent/20 rounded-full flex items-center justify-center">
-                      <Home className="h-4 w-4 text-accent" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-dark-gray">Community Explorer</p>
-                      <p className="text-xs text-gray-500">Exploring programs</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Support */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center text-dark-gray">
-                  <MessageCircle className="h-5 w-5 mr-2 text-green" />
-                  Need Support?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <Button size="sm" variant="outline" className="w-full justify-start bg-transparent">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Live Chat
-                  </Button>
-                  <Button size="sm" variant="outline" className="w-full justify-start bg-transparent">
-                    <FileText className="h-4 w-4 mr-2" />
-                    Submit Request
-                  </Button>
-                  <div className="text-center pt-2">
-                    <p className="text-xs text-gray-500">
-                      Call:{" "}
-                      <Link href="tel:7045553322" className="text-accent">
-                        (704) 555-DDCC
-                      </Link>
-                    </p>
-                  </div>
-                </div>
+              <CardContent className="space-y-2">
+                <Button asChild variant="outline" className="w-full justify-start bg-transparent">
+                  <Link href="/programs/register">
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    Register for Programs
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full justify-start bg-transparent">
+                  <Link href="/community/events">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    View Events
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full justify-start bg-transparent">
+                  <Link href="/contact">
+                    <Users className="h-4 w-4 mr-2" />
+                    Contact Support
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
