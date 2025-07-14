@@ -5,8 +5,42 @@ import { Card, CardContent } from "@/components/ui/card"
 import HeroSlider from "@/components/hero-slider"
 import QuickLinks from "@/components/quick-links"
 import SocialSidebar from "@/components/social-sidebar"
+import { strapi, getStrapiImageUrl, fallbackData } from "@/lib/strapi"
 
-export default function Home() {
+export default async function Home() {
+  // Initialize with fallback data
+  let featuredPrograms = fallbackData.programs.filter((program) => program.featured).slice(0, 3)
+  let upcomingEvents = fallbackData.events.slice(0, 3)
+  let testimonials = fallbackData.testimonials.filter((testimonial) => testimonial.featured).slice(0, 1)
+
+  // Try to fetch from Strapi, but don't fail if it's unavailable
+  try {
+    const isHealthy = await strapi.isHealthy()
+    if (isHealthy) {
+      const [programs, events, testimonialData] = await Promise.allSettled([
+        strapi.getPrograms(),
+        strapi.getEvents(),
+        strapi.getTestimonials(),
+      ])
+
+      // Use Strapi data if available, otherwise keep fallback data
+      if (programs.status === "fulfilled" && programs.value.length > 0) {
+        featuredPrograms = programs.value.filter((program) => program.featured).slice(0, 3)
+      }
+
+      if (events.status === "fulfilled" && events.value.length > 0) {
+        upcomingEvents = events.value.slice(0, 3)
+      }
+
+      if (testimonialData.status === "fulfilled" && testimonialData.value.length > 0) {
+        testimonials = testimonialData.value.filter((testimonial) => testimonial.featured).slice(0, 1)
+      }
+    }
+  } catch (error) {
+    console.warn("Using fallback data due to Strapi unavailability:", error)
+    // Continue with fallback data
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <SocialSidebar />
@@ -88,85 +122,34 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="program-card urban-card">
-              <div className="relative h-80">
-                <Image
-                  src="/community-workshop.png"
-                  alt="Career Development"
-                  fill
-                  className="object-cover high-contrast-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/90 to-dark-gray/20"></div>
-                <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">Career Development</h3>
-                  <p className="text-sm text-white/90">Skills, resources, and mentorship for career advancement</p>
+            {featuredPrograms.map((program) => (
+              <div key={program.id} className="program-card urban-card">
+                <div className="relative h-80">
+                  <Image
+                    src={getStrapiImageUrl(program.image) || "/placeholder.svg"}
+                    alt={program.title}
+                    fill
+                    className="object-cover high-contrast-image"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/90 to-dark-gray/20"></div>
+                  <div className="absolute bottom-0 left-0 p-6 text-white">
+                    <h3 className="text-xl font-bold mb-2">{program.title}</h3>
+                    <p className="text-sm text-white/90">{program.description}</p>
+                  </div>
+                </div>
+                <div className="program-overlay">
+                  <p className="text-white mb-4">{program.longDescription}</p>
+                  <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full font-semibold">
+                    <Link href={`/programs/${program.slug}`}>Learn More</Link>
+                  </Button>
                 </div>
               </div>
-              <div className="program-overlay">
-                <p className="text-white mb-4">
-                  Our Career Development program provides participants with the skills, resources, and mentorship they
-                  need to advance their careers and achieve their professional goals.
-                </p>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full font-semibold">
-                  <Link href="/community/programs#career">Learn More</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="program-card urban-card">
-              <div className="relative h-80">
-                <Image
-                  src="/community-family.png"
-                  alt="Health Education"
-                  fill
-                  className="object-cover high-contrast-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/90 to-dark-gray/20"></div>
-                <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">Health Education</h3>
-                  <p className="text-sm text-white/90">Promoting wellness through education and resources</p>
-                </div>
-              </div>
-              <div className="program-overlay">
-                <p className="text-white mb-4">
-                  Our Health Education program promotes wellness through education and resources for healthy living,
-                  addressing both physical and mental health needs in our community.
-                </p>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full font-semibold">
-                  <Link href="/community/programs#health">Learn More</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="program-card urban-card">
-              <div className="relative h-80">
-                <Image
-                  src="/community-youth.png"
-                  alt="Community Events"
-                  fill
-                  className="object-cover high-contrast-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/90 to-dark-gray/20"></div>
-                <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">Community Events</h3>
-                  <p className="text-sm text-white/90">Bringing people together to celebrate and connect</p>
-                </div>
-              </div>
-              <div className="program-overlay">
-                <p className="text-white mb-4">
-                  Our Community Events bring people together to foster connections, celebrate diversity, and strengthen
-                  the bonds that make our community resilient and vibrant.
-                </p>
-                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full font-semibold">
-                  <Link href="/community/events">View Events</Link>
-                </Button>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="text-center mt-12">
             <Button asChild className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg font-semibold">
-              <Link href="/community/programs">View All Programs</Link>
+              <Link href="/programs">View All Programs</Link>
             </Button>
           </div>
         </div>
@@ -185,68 +168,38 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border">
-              <CardContent className="p-6">
-                <p className="text-accent font-bold mb-2 event-date text-lg">June 15, 2025 • 10:00 AM - 2:00 PM</p>
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Career Fair</h3>
-                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
-                  <Image
-                    src="/event-career-fair.png"
-                    alt="Career Fair"
-                    fill
-                    className="object-cover high-contrast-image"
-                  />
-                </div>
-                <p className="text-dark-gray/80 mb-4 leading-relaxed">
-                  Connect with local employers and explore job opportunities in various industries.
-                </p>
-                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white font-semibold">
-                  <Link href="/community/events/career-fair">Register Now</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border">
-              <CardContent className="p-6">
-                <p className="text-accent font-bold mb-2 event-date text-lg">June 22, 2025 • 6:00 PM - 8:00 PM</p>
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Financial Literacy Workshop</h3>
-                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
-                  <Image
-                    src="/event-financial.png"
-                    alt="Financial Literacy Workshop"
-                    fill
-                    className="object-cover high-contrast-image"
-                  />
-                </div>
-                <p className="text-dark-gray/80 mb-4 leading-relaxed">
-                  Learn essential money management skills and strategies for building financial security.
-                </p>
-                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white font-semibold">
-                  <Link href="/community/events/financial-literacy">Register Now</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border">
-              <CardContent className="p-6">
-                <p className="text-accent font-bold mb-2 event-date text-lg">July 8, 2025 • 11:00 AM - 3:00 PM</p>
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Community Health Fair</h3>
-                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
-                  <Image
-                    src="/event-health-fair.png"
-                    alt="Community Health Fair"
-                    fill
-                    className="object-cover high-contrast-image"
-                  />
-                </div>
-                <p className="text-dark-gray/80 mb-4 leading-relaxed">
-                  Access free health screenings, resources, and information from local health providers.
-                </p>
-                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white font-semibold">
-                  <Link href="/community/events/health-fair">Register Now</Link>
-                </Button>
-              </CardContent>
-            </Card>
+            {upcomingEvents.map((event) => (
+              <Card
+                key={event.id}
+                className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border"
+              >
+                <CardContent className="p-6">
+                  <p className="text-accent font-bold mb-2 event-date text-lg">
+                    {new Date(event.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}{" "}
+                    • {event.startTime} - {event.endTime}
+                  </p>
+                  <h3 className="text-xl font-bold text-dark-gray mb-2">{event.title}</h3>
+                  <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
+                    <Image
+                      src={getStrapiImageUrl(event.image) || "/placeholder.svg"}
+                      alt={event.title}
+                      fill
+                      className="object-cover high-contrast-image"
+                    />
+                  </div>
+                  <p className="text-dark-gray/80 mb-4 leading-relaxed">{event.description}</p>
+                  <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white font-semibold">
+                    <Link href={`/events/${event.slug}`}>
+                      {event.registrationRequired ? "Register Now" : "Learn More"}
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           <div className="text-center mt-12">
@@ -254,7 +207,7 @@ export default function Home() {
               asChild
               className="bg-secondary hover:bg-secondary/90 text-dark-gray px-8 py-6 text-lg font-semibold"
             >
-              <Link href="/community/events">View All Events</Link>
+              <Link href="/events">View All Events</Link>
             </Button>
           </div>
         </div>
@@ -316,7 +269,7 @@ export default function Home() {
               <div className="relative">
                 <div className="relative h-[400px] w-full rounded-lg overflow-hidden">
                   <Image
-                    src="/community-leader.png"
+                    src={getStrapiImageUrl(testimonials[0]?.image) || "/placeholder.svg"}
                     alt="Community Member"
                     fill
                     className="object-cover high-contrast-image"
@@ -330,14 +283,12 @@ export default function Home() {
               <div className="text-white">
                 <h2 className="text-3xl font-bold mb-6 rebel-border pb-4">What Our Community Says</h2>
                 <blockquote className="text-xl italic mb-6 text-white/95 leading-relaxed">
-                  The Difference Driven Community Center changed my life. Through their career development program, I
-                  gained the skills and confidence to pursue my dream job. The supportive community here truly empowers
-                  everyone to reach their full potential.
+                  {testimonials[0]?.content}
                 </blockquote>
                 <div className="flex items-center">
                   <div className="mr-4">
-                    <p className="font-semibold text-lg text-white">Jasmine Williams</p>
-                    <p className="text-sm text-white/80">Community Member</p>
+                    <p className="font-semibold text-lg text-white">{testimonials[0]?.name}</p>
+                    <p className="text-sm text-white/80">{testimonials[0]?.position || "Community Member"}</p>
                   </div>
                 </div>
               </div>
@@ -363,14 +314,14 @@ export default function Home() {
                 size="lg"
                 className="bg-white hover:bg-gray-100 text-dark-gray px-8 py-6 text-lg font-semibold"
               >
-                <Link href="/membership/join">Become a Member</Link>
+                <Link href="/membership">Become a Member</Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-dark-gray px-8 py-6 text-lg font-semibold"
               >
-                <Link href="/community/programs">Explore Programs</Link>
+                <Link href="/programs">Explore Programs</Link>
               </Button>
             </div>
           </div>
