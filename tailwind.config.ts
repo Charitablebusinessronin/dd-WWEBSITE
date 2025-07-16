@@ -26,15 +26,15 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#BDBD0D", // Green (keeping this as primary)
+          DEFAULT: "#BDBD0D", // Green
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#FFC300", // Yellow (more prominent now)
+          DEFAULT: "#FFC300", // Yellow
           foreground: "hsl(var(--secondary-foreground))",
         },
         accent: {
-          DEFAULT: "#2D5A5A", // Dark Teal (replacing the blue)
+          DEFAULT: "#0581a7", // Blue
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
@@ -42,7 +42,7 @@ const config = {
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "#1A3333", // Darker Teal (replacing dark gray)
+          DEFAULT: "#142329", // Dark Gray
           foreground: "hsl(var(--muted-foreground))",
         },
         popover: {
@@ -56,9 +56,8 @@ const config = {
         white: "#f5f5f5",
         green: "#BDBD0D",
         yellow: "#FFC300",
-        teal: "#2D5A5A", // New teal color
-        "dark-teal": "#1A3333", // Darker teal
-        "dark-gray": "#142329", // Keep for text
+        blue: "#0581a7",
+        "dark-gray": "#142329",
       },
       borderRadius: {
         lg: "var(--radius)",

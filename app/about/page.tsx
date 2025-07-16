@@ -2,17 +2,16 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Heart, TrendingUp, Users, Sparkles } from "lucide-react"
 
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[500px] overflow-hidden">
+      <section className="relative h-[400px] overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/community-youth.png"
-            alt="Together, We Plant Seeds of Promise"
+            alt="About The Difference Driven Community Center"
             fill
             className="object-cover"
             priority
@@ -21,78 +20,39 @@ export default function AboutPage() {
         </div>
         <div className="relative flex h-full items-center">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl rebel-border">
-                Together, We Plant Seeds of Promise That Blossom Into Positive Change
-              </h1>
-              <p className="mt-6 max-w-3xl text-lg text-white">
-                At Difference Driven Community Center, we believe every person deserves a foundation for success.
-                Through community-owned housing, transformative education programs, and comprehensive wellness support,
-                we're creating pathways to opportunity that strengthen not just individuals, but our entire community.
+            <div className="max-w-3xl">
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">About Us</h1>
+              <p className="mt-6 max-w-xl text-lg text-white">
+                Learn about our mission, vision, values, and the people who make our work possible.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision Section */}
+      {/* Vision & Mission Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6 rebel-border inline-block pb-4">
-                Our Mission
-              </h2>
-              <p className="text-lg text-gray-600 mb-6">
-                We empower individuals and families to build brighter futures through:
+              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">Our Vision</h2>
+              <p className="text-xl text-gray-600 mb-8">
+                "To be a beacon for transformative impact in our communities."
               </p>
-              <ul className="space-y-4 text-gray-600">
-                <li className="flex items-start">
-                  <div className="h-2 w-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>
-                    <strong>Community-owned cooperative housing</strong> that provides stability and belonging
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="h-2 w-2 bg-secondary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>
-                    <strong>Comprehensive education programs</strong> that develop skills for lifelong success
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="h-2 w-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>
-                    <strong>Wellness and support services</strong> that nurture whole-person growth
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="h-2 w-2 bg-green rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>
-                    <strong>Economic justice initiatives</strong> that create sustainable pathways out of poverty
-                  </span>
-                </li>
-              </ul>
+
+              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6">Our Mission</h2>
+              <p className="text-xl text-gray-600">
+                "Empowering individuals through education, engagement, and collaborative initiatives."
+              </p>
             </div>
 
             <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image src="/community-workshop.png" alt="Our Mission in Action" fill className="object-cover" />
-            </div>
-          </div>
-
-          <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-              <Image src="/community-family.png" alt="Our Vision" fill className="object-cover" />
-            </div>
-
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl font-bold tracking-tight text-dark-gray mb-6 rebel-border inline-block pb-4">
-                Our Vision
-              </h2>
-              <p className="text-lg text-gray-600">
-                We envision thriving communities where every person has access to affordable housing, quality education,
-                and the support needed to reach their full potential. Together, we're building a replicable model of
-                community ownership and shared prosperity.
-              </p>
+              <Image
+                src="/community-workshop.png"
+                alt="The Difference Driven Community Center"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
@@ -102,63 +62,49 @@ export default function AboutPage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl rebel-border inline-block pb-4">
-              Our Values
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl">Our Values</h2>
             <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
               These core principles guide our work and define our culture
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+            <Card className="bg-white shadow-md">
               <CardContent className="p-6">
-                <div className="h-12 w-12 bg-primary/20 rounded-full flex items-center justify-center mb-4">
-                  <Heart className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-dark-gray mb-3">Warm & Welcoming</h3>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Inclusivity</h3>
                 <p className="text-gray-600">
-                  Every person who walks through our doors finds a community that embraces them exactly as they are
-                  while supporting their growth.
+                  We embrace diversity and create spaces where everyone feels welcome, respected, and valued. Our
+                  programs and services are designed to be accessible to all members of our community.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+            <Card className="bg-white shadow-md">
               <CardContent className="p-6">
-                <div className="h-12 w-12 bg-secondary/20 rounded-full flex items-center justify-center mb-4">
-                  <TrendingUp className="h-6 w-6 text-secondary" />
-                </div>
-                <h3 className="text-xl font-bold text-dark-gray mb-3">Empowerment Through Action</h3>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Empowerment</h3>
                 <p className="text-gray-600">
-                  We don't just provide services—we create opportunities for community members to develop skills, build
-                  confidence, and become leaders themselves.
+                  We believe in equipping individuals with the knowledge, skills, and resources they need to take
+                  control of their lives and create positive change for themselves and their communities.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+            <Card className="bg-white shadow-md">
               <CardContent className="p-6">
-                <div className="h-12 w-12 bg-accent/20 rounded-full flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="text-xl font-bold text-dark-gray mb-3">Authentic Relationships</h3>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Collaboration</h3>
                 <p className="text-gray-600">
-                  Our programs are built on genuine connections, honest communication, and mutual respect between staff,
-                  volunteers, and community members.
+                  We recognize that meaningful change happens when we work together. We actively seek partnerships with
+                  individuals, organizations, and institutions that share our vision for a better community.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
+            <Card className="bg-white shadow-md">
               <CardContent className="p-6">
-                <div className="h-12 w-12 bg-green/20 rounded-full flex items-center justify-center mb-4">
-                  <Sparkles className="h-6 w-6 text-green" />
-                </div>
-                <h3 className="text-xl font-bold text-dark-gray mb-3">Inclusive Growth</h3>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Integrity</h3>
                 <p className="text-gray-600">
-                  We celebrate the diverse backgrounds, experiences, and perspectives that make our community stronger
-                  and more resilient.
+                  We are committed to honesty, transparency, and ethical conduct in all that we do. We hold ourselves
+                  accountable to our community and strive to be worthy of the trust placed in us.
                 </p>
               </CardContent>
             </Card>

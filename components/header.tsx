@@ -1,263 +1,195 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, ChevronDown, User, LogOut, Settings } from "lucide-react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
+import Image from "next/image"
+
+const navigation = [
+  {
+    name: "OUR COMMUNITY",
+    href: "/community",
+    submenu: [
+      { name: "About Us", href: "/community/about" },
+      { name: "Programs", href: "/community/programs" },
+      { name: "Housing Cooperatives", href: "/housing-cooperatives" },
+      { name: "Events", href: "/community/events" },
+      { name: "News", href: "/community/news" },
+    ],
+  },
+  {
+    name: "MEMBERSHIP",
+    href: "/membership",
+    submenu: [
+      { name: "Join", href: "/membership/join" },
+      { name: "Benefits", href: "/membership/benefits" },
+      { name: "Pricing", href: "/membership/pricing" },
+      { name: "FAQ", href: "/membership/faq" },
+    ],
+  },
+  {
+    name: "MY DD ACCOUNT",
+    href: "/account",
+    submenu: [
+      { name: "Login", href: "/account/login" },
+      { name: "Register", href: "/account/register" },
+      { name: "My Profile", href: "/account/profile" },
+    ],
+  },
+]
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
+  const pathname = usePathname()
 
-  useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem("user")
-    if (userData) {
-      setUser(JSON.parse(userData))
-      setIsLoggedIn(true)
+  const toggleSubmenu = (name: string) => {
+    if (activeSubmenu === name) {
+      setActiveSubmenu(null)
+    } else {
+      setActiveSubmenu(name)
     }
-  }, [])
-
-  const handleLogout = () => {
-    localStorage.removeItem("user")
-    setUser(null)
-    setIsLoggedIn(false)
-    window.location.href = "/"
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
   }
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo and Brand */}
-          <Link href="/" className="flex items-center space-x-3">
-            <Image src="/dd-logo.png" alt="Difference Driven Logo" width={50} height={50} className="h-12 w-12" />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-dark-gray font-montserrat">Difference Driven</span>
-              <span className="text-sm text-accent font-medium -mt-1">Morii Community Center</span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-dark-gray hover:text-accent transition-colors font-medium">
-                <span>Community</span>
-                <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border shadow-lg">
-                <DropdownMenuItem asChild>
-                  <Link href="/about" className="text-dark-gray hover:text-accent">
-                    About Us
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/programs" className="text-dark-gray hover:text-accent">
-                    Programs
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/events" className="text-dark-gray hover:text-accent">
-                    Events
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/stories" className="text-dark-gray hover:text-accent">
-                    Stories
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-1 text-dark-gray hover:text-accent transition-colors font-medium">
-                <span>Housing Initiative</span>
-                <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border shadow-lg">
-                <DropdownMenuItem asChild>
-                  <Link href="/housing" className="text-dark-gray hover:text-accent">
-                    Housing Overview
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/housing/research" className="text-dark-gray hover:text-accent">
-                    Research & Data
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/housing/cooperatives" className="text-dark-gray hover:text-accent">
-                    Cooperative Models
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/housing/north-carolina" className="text-dark-gray hover:text-accent">
-                    North Carolina Context
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Link href="/membership" className="text-dark-gray hover:text-accent transition-colors font-medium">
-              Membership
-            </Link>
-            <Link href="/get-involved" className="text-dark-gray hover:text-accent transition-colors font-medium">
-              Get Involved
-            </Link>
-            <Link href="/contact" className="text-dark-gray hover:text-accent transition-colors font-medium">
-              Contact
-            </Link>
-          </nav>
-
-          {/* Auth Section */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {isLoggedIn && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center space-x-2 text-dark-gray hover:text-accent transition-colors">
-                  <User className="h-5 w-5" />
-                  <span className="font-medium">{user.name.split(" ")[0]}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white border shadow-lg">
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="flex items-center space-x-2 text-dark-gray hover:text-accent">
-                      <Settings className="h-4 w-4" />
-                      <span>Dashboard</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="flex items-center space-x-2 text-red-600 hover:text-red-700"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-accent text-accent hover:bg-accent hover:text-white bg-transparent"
-                >
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild className="bg-accent hover:bg-accent/90 text-white">
-                  <Link href="/register">Join Us</Link>
-                </Button>
-              </>
-            )}
+    <header className="bg-white shadow-sm">
+      <div className="flex items-center justify-between px-4 py-2 lg:px-8 border-b border-gray-200">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image7-vSIgtR83QL8pdO0YWqc84luCA59jGc.png"
+            alt="Difference Driven Community Center Logo"
+            width={48}
+            height={48}
+            className="mr-3"
+          />
+          <div className="flex flex-col">
+            <span className="text-lg font-montserrat font-bold text-dark-gray uppercase leading-tight">
+              Difference Driven
+            </span>
+            <span className="text-sm font-montserrat text-dark-gray uppercase leading-tight">Community Center</span>
           </div>
+        </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="lg:hidden p-2 text-dark-gray hover:text-accent transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4">
-              <div className="flex flex-col space-y-2">
-                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Community</span>
-                <Link href="/about" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  About Us
-                </Link>
-                <Link href="/programs" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Programs
-                </Link>
-                <Link href="/events" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Events
-                </Link>
-                <Link href="/stories" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Stories
-                </Link>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <span className="font-semibold text-dark-gray text-sm uppercase tracking-wide">Housing Initiative</span>
-                <Link href="/housing" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Housing Overview
-                </Link>
-                <Link href="/housing/research" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Research & Data
-                </Link>
-                <Link href="/housing/cooperatives" className="pl-4 text-dark-gray hover:text-accent transition-colors">
-                  Cooperative Models
-                </Link>
-                <Link
-                  href="/housing/north-carolina"
-                  className="pl-4 text-dark-gray hover:text-accent transition-colors"
+        <div className="hidden lg:flex lg:items-center">
+          <nav className="flex space-x-8">
+            {navigation.map((item) => (
+              <div key={item.name} className="relative group">
+                <button
+                  className={cn(
+                    "text-sm font-semibold leading-6 transition-colors hover:text-accent px-2 py-2",
+                    pathname.startsWith(item.href) ? "text-accent" : "text-dark-gray",
+                  )}
+                  onClick={() => toggleSubmenu(item.name)}
                 >
-                  North Carolina Context
-                </Link>
-              </div>
-
-              <Link href="/membership" className="text-dark-gray hover:text-accent transition-colors font-medium">
-                Membership
-              </Link>
-              <Link href="/get-involved" className="text-dark-gray hover:text-accent transition-colors font-medium">
-                Get Involved
-              </Link>
-              <Link href="/contact" className="text-dark-gray hover:text-accent transition-colors font-medium">
-                Contact
-              </Link>
-
-              <div className="pt-4 border-t border-gray-200">
-                {isLoggedIn && user ? (
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center space-x-2 text-dark-gray">
-                      <User className="h-5 w-5" />
-                      <span className="font-medium">{user.name}</span>
-                    </div>
-                    <Link href="/dashboard" className="pl-7 text-dark-gray hover:text-accent transition-colors">
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="pl-7 text-left text-red-600 hover:text-red-700 transition-colors"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col space-y-2">
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="border-accent text-accent hover:bg-accent hover:text-white bg-transparent"
-                    >
-                      <Link href="/login">Login</Link>
-                    </Button>
-                    <Button asChild className="bg-accent hover:bg-accent/90 text-white">
-                      <Link href="/register">Join Us</Link>
-                    </Button>
+                  {item.name}
+                </button>
+                {item.submenu && (
+                  <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-1 z-10 hidden group-hover:block">
+                    {item.submenu.map((subitem) => (
+                      <Link
+                        key={subitem.name}
+                        href={subitem.href}
+                        className="block px-4 py-2 text-sm text-dark-gray hover:bg-gray-100"
+                      >
+                        {subitem.name}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>
-            </nav>
+            ))}
+          </nav>
+        </div>
+
+        <div className="flex items-center">
+          <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray hidden lg:block">
+            <Link href="/donate">DONATE TODAY</Link>
+          </Button>
+          <button
+            type="button"
+            className="ml-4 inline-flex items-center justify-center rounded-md p-2.5 text-dark-gray lg:hidden"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Menu className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div className={cn("lg:hidden", mobileMenuOpen ? "fixed inset-0 z-50" : "hidden")}>
+        <div className="fixed inset-0 bg-dark-gray/20" onClick={() => setMobileMenuOpen(false)} />
+        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image7-vSIgtR83QL8pdO0YWqc84luCA59jGc.png"
+                alt="Difference Driven Community Center Logo"
+                width={40}
+                height={40}
+                className="mr-3"
+              />
+              <div className="flex flex-col">
+                <span className="text-base font-montserrat font-bold text-dark-gray uppercase leading-tight">
+                  Difference Driven
+                </span>
+                <span className="text-xs font-montserrat text-dark-gray uppercase leading-tight">Community Center</span>
+              </div>
+            </Link>
+            <button
+              type="button"
+              className="-m-2.5 rounded-md p-2.5 text-dark-gray"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span className="sr-only">Close menu</span>
+              <X className="h-6 w-6" aria-hidden="true" />
+            </button>
           </div>
-        )}
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+              <div className="space-y-2 py-6">
+                {navigation.map((item) => (
+                  <div key={item.name}>
+                    <button
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-gray-50",
+                        pathname.startsWith(item.href) ? "text-accent" : "text-dark-gray",
+                      )}
+                      onClick={() => toggleSubmenu(item.name)}
+                    >
+                      {item.name}
+                      {item.submenu && <span className="ml-2">{activeSubmenu === item.name ? "-" : "+"}</span>}
+                    </button>
+                    {item.submenu && activeSubmenu === item.name && (
+                      <div className="mt-2 space-y-2 pl-7">
+                        {item.submenu.map((subitem) => (
+                          <Link
+                            key={subitem.name}
+                            href={subitem.href}
+                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-dark-gray hover:bg-gray-50"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {subitem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="py-6">
+                <Button asChild className="w-full bg-primary hover:bg-primary/90 text-dark-gray">
+                  <Link href="/donate" onClick={() => setMobileMenuOpen(false)}>
+                    DONATE TODAY
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   )

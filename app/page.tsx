@@ -1,434 +1,308 @@
-import Image from "next/image"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import HeroSlider from "@/components/hero-slider"
 import QuickLinks from "@/components/quick-links"
 import SocialSidebar from "@/components/social-sidebar"
-import { Users, Heart, BookOpen, Calendar, MapPin, Phone, Mail, ArrowRight, Star, CheckCircle } from "lucide-react"
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section with Slider */}
-      <section className="relative">
-        <HeroSlider />
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Building Stronger Communities Together</h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90">
-              Empowering individuals and families through community ownership, shared prosperity, and collective care
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-dark-gray text-lg px-8 py-3">
-                <Link href="/register">Join Our Community</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white hover:text-dark-gray text-lg px-8 py-3 bg-transparent"
-              >
-                <Link href="/programs">Explore Programs</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="flex flex-col min-h-screen">
+      <SocialSidebar />
+
+      {/* Hero Slider */}
+      <HeroSlider />
 
       {/* Quick Links */}
       <QuickLinks />
 
-      {/* Community Impact Section */}
+      {/* Featured Programs */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Our Community Impact</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              See how we're making a difference in our community through programs, events, and services that matter
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <div className="text-center">
-              <div className="h-16 w-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-dark-gray" />
-              </div>
-              <h3 className="text-2xl font-bold text-dark-gray mb-2">500+</h3>
-              <p className="text-gray-600">Active Members</p>
-            </div>
-            <div className="text-center">
-              <div className="h-16 w-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="h-8 w-8 text-dark-gray" />
-              </div>
-              <h3 className="text-2xl font-bold text-dark-gray mb-2">25+</h3>
-              <p className="text-gray-600">Programs Offered</p>
-            </div>
-            <div className="text-center">
-              <div className="h-16 w-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-dark-gray mb-2">100+</h3>
-              <p className="text-gray-600">Events This Year</p>
-            </div>
-            <div className="text-center">
-              <div className="h-16 w-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-dark-gray" />
-              </div>
-              <h3 className="text-2xl font-bold text-dark-gray mb-2">1000+</h3>
-              <p className="text-gray-600">Lives Impacted</p>
-            </div>
-          </div>
-
-          {/* Community Activities Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="overflow-hidden">
-              <div className="relative h-64">
-                <Image
-                  src="/community-celebration.png"
-                  alt="Community members celebrating together"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Community Celebrations</h3>
-                <p className="text-gray-600 mb-4">
-                  Join us for regular community events that bring neighbors together and celebrate our shared
-                  achievements.
-                </p>
-                <Button asChild variant="outline">
-                  <Link href="/events">View Upcoming Events</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden">
-              <div className="relative h-64">
-                <Image
-                  src="/wellness-meditation.png"
-                  alt="Community wellness and meditation class"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Health & Wellness</h3>
-                <p className="text-gray-600 mb-4">
-                  Comprehensive wellness programs including fitness classes, meditation, and mental health support.
-                </p>
-                <Button asChild variant="outline">
-                  <Link href="/programs/health-wellness">Learn More</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden">
-              <div className="relative h-64">
-                <Image
-                  src="/community-art-project.png"
-                  alt="Community art project with adult and child painting mural"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Arts & Culture</h3>
-                <p className="text-gray-600 mb-4">
-                  Creative programs for all ages, from community murals to art workshops that express our shared
-                  identity.
-                </p>
-                <Button asChild variant="outline">
-                  <Link href="/programs">Explore Programs</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden">
-              <div className="relative h-64">
-                <Image
-                  src="/health-services.png"
-                  alt="Healthcare professionals providing community health services"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-dark-gray mb-2">Health Services</h3>
-                <p className="text-gray-600 mb-4">
-                  Access to healthcare services, health screenings, and wellness education right in your community.
-                </p>
-                <Button asChild variant="outline">
-                  <Link href="/programs/health-wellness">Get Health Support</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Programs */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Featured Programs</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover programs designed to support your journey toward economic stability and community connection
+            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl rebel-border inline-block pb-4">
+              Featured Programs
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+              Discover our most popular programs and activities
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-2 border-primary/20 hover:border-primary/40 transition-colors">
-              <CardHeader>
-                <div className="h-12 w-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                  <BookOpen className="h-6 w-6 text-dark-gray" />
+            <div className="program-card urban-card">
+              <div className="relative h-80">
+                <Image
+                  src="/community-workshop.png"
+                  alt="Career Development"
+                  fill
+                  className="object-cover high-contrast-image"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/80 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Career Development</h3>
+                  <p className="text-sm opacity-90">Skills, resources, and mentorship for career advancement</p>
                 </div>
-                <CardTitle className="text-dark-gray">Career Development</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Job training, resume building, interview preparation, and career counseling to help you achieve your
-                  professional goals.
+              </div>
+              <div className="program-overlay">
+                <p className="text-white mb-4">
+                  Our Career Development program provides participants with the skills, resources, and mentorship they
+                  need to advance their careers and achieve their professional goals.
                 </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Job placement assistance
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Skills training workshops
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Professional networking
-                  </li>
-                </ul>
-                <Button asChild className="w-full">
-                  <Link href="/programs/career-development">Learn More</Link>
+                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full">
+                  <Link href="/community/programs#career">Learn More</Link>
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="border-2 border-secondary/20 hover:border-secondary/40 transition-colors">
-              <CardHeader>
-                <div className="h-12 w-12 bg-secondary rounded-lg flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-dark-gray" />
+            <div className="program-card urban-card">
+              <div className="relative h-80">
+                <Image
+                  src="/community-family.png"
+                  alt="Health Education"
+                  fill
+                  className="object-cover high-contrast-image"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/80 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Health Education</h3>
+                  <p className="text-sm opacity-90">Promoting wellness through education and resources</p>
                 </div>
-                <CardTitle className="text-dark-gray">Housing Cooperatives</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Learn about cooperative housing models and get support in finding affordable, community-owned housing
-                  options.
+              </div>
+              <div className="program-overlay">
+                <p className="text-white mb-4">
+                  Our Health Education program promotes wellness through education and resources for healthy living,
+                  addressing both physical and mental health needs in our community.
                 </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Cooperative education
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Housing search assistance
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Community ownership support
-                  </li>
-                </ul>
-                <Button asChild className="w-full">
-                  <Link href="/housing-cooperatives">Explore Housing</Link>
+                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full">
+                  <Link href="/community/programs#health">Learn More</Link>
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader>
-                <div className="h-12 w-12 bg-accent rounded-lg flex items-center justify-center mb-4">
-                  <Heart className="h-6 w-6 text-white" />
+            <div className="program-card urban-card">
+              <div className="relative h-80">
+                <Image
+                  src="/community-youth.png"
+                  alt="Community Events"
+                  fill
+                  className="object-cover high-contrast-image"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/80 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Community Events</h3>
+                  <p className="text-sm opacity-90">Bringing people together to celebrate and connect</p>
                 </div>
-                <CardTitle className="text-dark-gray">Health & Wellness</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Comprehensive health services including fitness classes, mental health support, and preventive care.
+              </div>
+              <div className="program-overlay">
+                <p className="text-white mb-4">
+                  Our Community Events bring people together to foster connections, celebrate diversity, and strengthen
+                  the bonds that make our community resilient and vibrant.
                 </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Fitness and yoga classes
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Mental health counseling
-                  </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                    Health screenings
-                  </li>
-                </ul>
-                <Button asChild className="w-full">
-                  <Link href="/programs/health-wellness">Get Support</Link>
+                <Button asChild className="bg-primary hover:bg-primary/90 text-dark-gray w-full">
+                  <Link href="/community/events">View Events</Link>
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button asChild className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg">
+              <Link href="/community/programs">View All Programs</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 bg-gray-50">
+      {/* Upcoming Events */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Community Stories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from community members whose lives have been transformed through our programs and services
-            </p>
+            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl rebel-border inline-block pb-4">
+              Upcoming Events
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">Join us for these exciting community events</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white">
+            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-4 italic">
-                  "The career development program helped me land my dream job. The support and training I received were
-                  invaluable."
-                </p>
-                <div className="flex items-center">
+                <p className="text-accent font-semibold mb-2 event-date">June 15, 2025 • 10:00 AM - 2:00 PM</p>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Career Fair</h3>
+                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
                   <Image
-                    src="/testimonial-jasmine.png"
-                    alt="Jasmine"
-                    width={48}
-                    height={48}
-                    className="rounded-full mr-3"
+                    src="/event-career-fair.png"
+                    alt="Career Fair"
+                    fill
+                    className="object-cover high-contrast-image"
                   />
-                  <div>
-                    <p className="font-semibold text-dark-gray">Jasmine Rodriguez</p>
-                    <p className="text-sm text-gray-500">Program Graduate</p>
-                  </div>
                 </div>
+                <p className="text-gray-600 mb-4">
+                  Connect with local employers and explore job opportunities in various industries.
+                </p>
+                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white">
+                  <Link href="/community/events/career-fair">Register Now</Link>
+                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white">
+            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-4 italic">
-                  "Finding affordable housing through the cooperative program changed my family's life. We finally have
-                  a stable home."
-                </p>
-                <div className="flex items-center">
+                <p className="text-accent font-semibold mb-2 event-date">June 22, 2025 • 6:00 PM - 8:00 PM</p>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Financial Literacy Workshop</h3>
+                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
                   <Image
-                    src="/community-member-1.png"
-                    alt="Marcus"
-                    width={48}
-                    height={48}
-                    className="rounded-full mr-3"
+                    src="/event-financial.png"
+                    alt="Financial Literacy Workshop"
+                    fill
+                    className="object-cover high-contrast-image"
                   />
-                  <div>
-                    <p className="font-semibold text-dark-gray">Marcus Johnson</p>
-                    <p className="text-sm text-gray-500">Housing Cooperative Member</p>
-                  </div>
                 </div>
+                <p className="text-gray-600 mb-4">
+                  Learn essential money management skills and strategies for building financial security.
+                </p>
+                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white">
+                  <Link href="/community/events/financial-literacy">Register Now</Link>
+                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white">
+            <Card className="bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-4 italic">
-                  "The wellness programs have been amazing for my mental health. The community support makes all the
-                  difference."
-                </p>
-                <div className="flex items-center">
+                <p className="text-accent font-semibold mb-2 event-date">July 8, 2025 • 11:00 AM - 3:00 PM</p>
+                <h3 className="text-xl font-bold text-dark-gray mb-2">Community Health Fair</h3>
+                <div className="relative h-40 w-full mb-4 overflow-hidden rounded">
                   <Image
-                    src="/community-member-2.png"
-                    alt="Sarah"
-                    width={48}
-                    height={48}
-                    className="rounded-full mr-3"
+                    src="/event-health-fair.png"
+                    alt="Community Health Fair"
+                    fill
+                    className="object-cover high-contrast-image"
                   />
-                  <div>
-                    <p className="font-semibold text-dark-gray">Sarah Chen</p>
-                    <p className="text-sm text-gray-500">Wellness Program Participant</p>
-                  </div>
                 </div>
+                <p className="text-gray-600 mb-4">
+                  Access free health screenings, resources, and information from local health providers.
+                </p>
+                <Button asChild className="w-full bg-accent hover:bg-accent/90 text-white">
+                  <Link href="/community/events/health-fair">Register Now</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
-        </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="py-16 bg-accent text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Join Our Community?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Take the first step toward building a stronger future for yourself and your family. Our community is here to
-            support you every step of the way.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-accent hover:bg-gray-100 text-lg px-8 py-3">
-              <Link href="/register">
-                Become a Member
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-accent text-lg px-8 py-3 bg-transparent"
-            >
-              <Link href="/contact">Contact Us</Link>
+          <div className="text-center mt-12">
+            <Button asChild className="bg-secondary hover:bg-secondary/90 text-dark-gray px-8 py-6 text-lg">
+              <Link href="/community/events">View All Events</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="py-12 bg-dark-gray text-white">
+      {/* Impact Section */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="flex items-center justify-center">
-              <MapPin className="h-6 w-6 mr-3 text-primary" />
-              <div>
-                <p className="font-semibold">Visit Us</p>
-                <p className="text-gray-300">123 Community Way, Charlotte, NC 28202</p>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-dark-gray sm:text-4xl rebel-border inline-block pb-4">
+              Our Impact
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+              Making a difference in our community, one person at a time
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="h-16 w-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-accent">1K+</span>
               </div>
+              <p className="text-xl font-bold text-dark-gray mb-2">Community Members</p>
+              <p className="text-gray-600">Served through our programs and services</p>
             </div>
-            <div className="flex items-center justify-center">
-              <Phone className="h-6 w-6 mr-3 text-primary" />
-              <div>
-                <p className="font-semibold">Call Us</p>
-                <p className="text-gray-300">(704) 555-0123</p>
+
+            <div className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="h-16 w-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">50+</span>
               </div>
+              <p className="text-xl font-bold text-dark-gray mb-2">Programs</p>
+              <p className="text-gray-600">Designed to empower and educate</p>
             </div>
-            <div className="flex items-center justify-center">
-              <Mail className="h-6 w-6 mr-3 text-primary" />
-              <div>
-                <p className="font-semibold">Email Us</p>
-                <p className="text-gray-300">info@differencedriven.org</p>
+
+            <div className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="h-16 w-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-secondary">200+</span>
+              </div>
+              <p className="text-xl font-bold text-dark-gray mb-2">Volunteers</p>
+              <p className="text-gray-600">Dedicated to making a difference</p>
+            </div>
+
+            <div className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="h-16 w-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-accent">85%</span>
+              </div>
+              <p className="text-xl font-bold text-dark-gray mb-2">Success Rate</p>
+              <p className="text-gray-600">Of career program participants finding employment</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial */}
+      <section className="py-16 bg-accent">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div className="relative">
+                <div className="relative h-[400px] w-full rounded-lg overflow-hidden">
+                  <Image
+                    src="/community-leader.png"
+                    alt="Community Member"
+                    fill
+                    className="object-cover high-contrast-image"
+                  />
+                </div>
+                <div className="absolute -bottom-6 -right-6 bg-primary h-24 w-24 rounded-full flex items-center justify-center">
+                  <span className="text-4xl font-serif text-dark-gray">"</span>
+                </div>
+              </div>
+
+              <div className="text-white">
+                <h2 className="text-3xl font-bold mb-6 rebel-border pb-4">What Our Community Says</h2>
+                <blockquote className="text-xl italic mb-6">
+                  The Difference Driven Community Center changed my life. Through their career development program, I
+                  gained the skills and confidence to pursue my dream job. The supportive community here truly empowers
+                  everyone to reach their full potential.
+                </blockquote>
+                <div className="flex items-center">
+                  <div className="mr-4">
+                    <p className="font-semibold text-lg">Jasmine Williams</p>
+                    <p className="text-sm opacity-80">Community Member</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Social Sidebar */}
-      <SocialSidebar />
+      {/* CTA Section */}
+      <section className="py-16 animated-bg text-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Join Our Community Today</h2>
+            <p className="mt-6 text-lg max-w-2xl mx-auto">
+              Become a member of the Difference Driven Community Center and gain access to all our programs and
+              facilities. Together, we can make a difference.
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="bg-dark-gray hover:bg-dark-gray/90 text-white px-8 py-6 text-lg">
+                <Link href="/membership/join">Become a Member</Link>
+              </Button>
+              <Button asChild size="lg" className="bg-white hover:bg-gray-100 text-dark-gray px-8 py-6 text-lg">
+                <Link href="/community/programs">Explore Programs</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
